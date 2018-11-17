@@ -565,7 +565,7 @@ PlayerSettings:
   webGLDebugSymbols: 0
   webGLEmscriptenArgs: 
   webGLModulesDirectory: 
-  webGLTemplate: APPLICATION:Default
+  webGLTemplate: PROJECT:BlockParty
   webGLAnalyzeBuildSize: 0
   webGLUseEmbeddedResources: 0
   webGLCompressionFormat: 1
@@ -651,7 +651,7 @@ PlayerSettings:
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
   cloudProjectId: 914e19af-9459-4abc-aaf8-ff7d00d21b1b
-  projectName: BlockPartyWeb
+  projectName: blockparty-client-web
   organizationId: block-party
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0

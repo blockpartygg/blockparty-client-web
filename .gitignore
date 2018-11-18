@@ -36,5 +36,10 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
-# Firebase build / public directory
+# Firebase
 public/
+firebase-debug.log
+.firebase
+
+# Visual Studio Code
+.vscode/

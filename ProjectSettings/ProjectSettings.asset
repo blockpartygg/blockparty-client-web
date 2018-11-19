@@ -647,11 +647,15 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
+    Build: 0
+    Collab: 0
+    ErrorHub: 0
+    Hub: 0
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
   cloudProjectId: 914e19af-9459-4abc-aaf8-ff7d00d21b1b
-  projectName: blockparty-client-web
+  projectName: Block Party Web
   organizationId: block-party
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0

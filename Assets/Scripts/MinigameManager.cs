@@ -24,6 +24,10 @@ public class MinigameManager : MonoBehaviour {
 		// }
 	}
 
+	void Start() {
+		GameManager.Instance.FetchGameAsync();
+	}
+
 	public void EndGame() {
 		BoardController.enabled = false;
 		BlockManager.KillBlocks();

@@ -20,7 +20,7 @@ public class BoardRaiser : MonoBehaviour {
 	}
 
 	void Update() {
-		if(MinigameManager.Mode == MinigameModes.Survival) {
+		if(GameManager.Instance.Mode == GameManager.GameMode.Survival) {
 			float raiseRate;
 			if(isForcingRaise) {
 				raiseRate = forcedRaiseRate;

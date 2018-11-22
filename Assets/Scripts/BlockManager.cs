@@ -24,7 +24,7 @@ public class BlockManager : MonoBehaviour {
 			}
 		}
 
-		if(MinigameManager.Mode == MinigameModes.Survival) {
+		if(GameManager.Instance.Mode == GameManager.GameMode.Survival) {
 			NewRowBlocks = new Block[Columns];
 			for(int column = 0; column < Columns; column++) {
 				NewRowBlocks[column] = Instantiate(BlockPrefab, Vector3.zero, Quaternion.identity);
@@ -39,7 +39,7 @@ public class BlockManager : MonoBehaviour {
 	}
 
 	void Start() {
-		if(MinigameManager.Mode == MinigameModes.TimeAttack) {
+		if(GameManager.Instance.Mode == GameManager.GameMode.TimeAttack) {
 			for(int row = 0; row < Rows; row++) {
 				for(int column = 0; column < Columns; column++) {
 					Blocks[column, row].State = BlockState.Idle;
@@ -47,7 +47,7 @@ public class BlockManager : MonoBehaviour {
 				}
 			}
 		}
-		else if(MinigameManager.Mode == MinigameModes.Survival) {
+		else if(GameManager.Instance.Mode == GameManager.GameMode.Survival) {
 			for(int row = 0; row < survivalModeStartingRows; row++) {
 				for(int column = 0; column < Columns; column++) {
 					Blocks[column, row].State = BlockState.Idle;

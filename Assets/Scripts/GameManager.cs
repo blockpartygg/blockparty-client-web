@@ -4,52 +4,43 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public enum GameState {
-    Playing,
-    Scoreboard
-}
-
-public enum GameMode {
-    TimeAttack,
-    Survival
-}
-
 [Serializable]
-public class Game {
+public class SerializableGame {
     [Serializable]
-    public class State {
-        public string id;
-        public int duration;
-    }
-
-    [Serializable]
-    public class Mode {
-        public string id;
-        public string name;
-    }
-
-    [Serializable]
-    public class GameScore {
+    public class SerializableGameScore {
         public string id;
         public int score;
     }
 
-    public State state;
+    public string state;
     public string endTime;
-    public Mode mode;
-    public List<GameScore> scoreboard;
+    public string mode;
+    public List<SerializableGameScore> scoreboard;
 }
 
 public class GameManager : Singleton<GameManager> {
+    public enum GameState {
+        Pregame,
+        InGame,
+        Postgame,
+        Scoreboard
+    }
     public GameState State;
-    public int StateDuration;
     public DateTime EndTime;
+    public enum GameMode {
+        TimeAttack,
+        Survival
+    }
     public GameMode Mode;
-    public string ModeName;
-    public Dictionary<string, int> Scoreboard;
+    public List<SerializableGame.SerializableGameScore> Scoreboard;
+    public event EventHandler GameUpdated;
 
     void Awake() {
-        Scoreboard = new Dictionary<string, int>();
+        Scoreboard = new List<SerializableGame.SerializableGameScore>();
+    }
+
+    void Start() {
+        FetchGameAsync();
     }
 
     public void FetchGameAsync() {
@@ -65,15 +56,17 @@ public class GameManager : Singleton<GameManager> {
         }
         else {
             string text = request.downloadHandler.text;
-            Game game = JsonUtility.FromJson<Game>(text);
-            State = (GameState)Enum.Parse(typeof(GameState), game.state.id, true);
-            StateDuration = game.state.duration;
+            SerializableGame game = JsonUtility.FromJson<SerializableGame>(text);
+            State = (GameState)Enum.Parse(typeof(GameState), game.state, true);
             EndTime = DateTime.Parse(game.endTime);
-            Mode = (GameMode)Enum.Parse(typeof(GameMode), game.mode.id, true);
-            ModeName = game.mode.name;
+            Mode = (GameMode)Enum.Parse(typeof(GameMode), game.mode, true);
             for(int scoreboardIndex = 0; scoreboardIndex < game.scoreboard.Count; scoreboardIndex++) {
                 Debug.Log("game.scoreboard[" + scoreboardIndex + "].id = " + game.scoreboard[scoreboardIndex].id);
                 Debug.Log("game.scoreboard[" + scoreboardIndex + "].score = " + game.scoreboard[scoreboardIndex].score);
+            }
+
+            if(GameUpdated != null) {
+                GameUpdated(this, null);
             }
         }
     }

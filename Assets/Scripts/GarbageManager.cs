@@ -41,8 +41,8 @@ public class GarbageManager : MonoBehaviour {
 	void Update() {
 		//SocketManager.Instance.Socket.Emit("blockParty/receiveChain", null, null);
 
-		if(Input.GetKeyDown("space")) {
-			SpawnGarbage(0);
-		}
+		// if(Input.GetKeyDown("space")) {
+		// 	SpawnGarbage(0);
+		// }
 	}
 }

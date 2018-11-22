@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 public class BoardController : MonoBehaviour {
-	public MinigameManager MinigameManager;
 	public BlockManager BlockManager;
 	public BoardRaiser BoardRaiser;
 	public Block SelectedBlock;
@@ -23,7 +22,7 @@ public class BoardController : MonoBehaviour {
 					}
 				}
 
-				if(MinigameManager.Mode == MinigameModes.Survival) {
+				if(GameManager.Instance.Mode == GameManager.GameMode.Survival) {
 					if(Time.time - previousTapTime <= doubleTapDuration) {
 						BoardRaiser.ForceRaise();
 					}

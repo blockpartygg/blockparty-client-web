@@ -19,8 +19,6 @@ public class BlockRenderer: MonoBehaviour {
     public List<Sprite> HoppingSprites3;
     public List<Sprite> HoppingSprites4;
     List<List<Sprite>> hoppingSprites;
-
-    MinigameManager minigameManager;
     BlockManager blockManager;
     ParticleManager particleManager;
     BoardRaiser boardRaiser;
@@ -28,7 +26,6 @@ public class BlockRenderer: MonoBehaviour {
     Vector3 blockTranslation;
 
     void Awake() {
-        minigameManager = GameObject.Find("Minigame").GetComponent<MinigameManager>();
         blockManager = GameObject.Find("Minigame").GetComponent<BlockManager>();
         particleManager = GameObject.Find("Minigame").GetComponent<ParticleManager>();
         boardRaiser = GameObject.Find("Minigame").GetComponent<BoardRaiser>();
@@ -115,7 +112,7 @@ public class BlockRenderer: MonoBehaviour {
         switch(Block.State) {
             case BlockState.Idle:
                 transform.position = transform.parent.position + blockTranslation + raiseTranslation + garbageTranslation;
-                if(minigameManager.Mode == MinigameModes.Survival) {
+                if(GameManager.Instance.Mode == GameManager.GameMode.Survival) {
                     if(blockManager.Blocks[Block.Column, BlockManager.Rows - 2].State != BlockState.Empty || 
                         blockManager.Blocks[Block.Column, BlockManager.Rows - 3].State != BlockState.Empty) {
                         SpriteRenderer.sprite = hoppingSprites[Block.Type][(int)(Time.time * 10) % 4];

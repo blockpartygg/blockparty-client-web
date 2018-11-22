@@ -3,7 +3,6 @@ using UnityEngine;
 public class BoardGravity : MonoBehaviour {
     public BlockManager BlockManager;
     public MatchDetector MatchDetector;
-    public MinigameManager MinigameManager;
     public AudioSource AudioSource;
     public AudioClip LandClip;
 
@@ -113,7 +112,7 @@ public class BoardGravity : MonoBehaviour {
         }
 
         // In Time Attack mode, spawn in new blocks from the top when there's space to add them
-        if(MinigameManager.Mode == MinigameModes.TimeAttack) {
+        if(GameManager.Instance.Mode == GameManager.GameMode.TimeAttack) {
             for(int column = 0; column < BlockManager.Columns; column++) {
                 if(BlockManager.Blocks[column, BlockManager.Rows - 1].State == BlockState.Empty) {
                     BlockManager.Blocks[column, BlockManager.Rows - 1].Type = BlockManager.GetRandomBlockType(column, BlockManager.Rows - 1);

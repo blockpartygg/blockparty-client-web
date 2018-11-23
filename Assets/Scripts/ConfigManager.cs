@@ -54,7 +54,7 @@ public class ConfigManager : Singleton<ConfigManager> {
     }
 
     IEnumerator FetchConfig() {
-        UnityWebRequest request = UnityWebRequest.Get("http://localhost:1337/config");
+        UnityWebRequest request = UnityWebRequest.Get(APIManager.Instance.HostURL + APIManager.Instance.ConfigRoute);
         yield return request.SendWebRequest();
 
         if(request.isNetworkError || request.isHttpError) {

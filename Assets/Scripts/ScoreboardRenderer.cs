@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class ScoreboardRenderer : MonoBehaviour {
 	ScoreboardManager scoreboardManager;
+	public GameObject FirstPlaceScore;
+	public GameObject RemainingScores;
+	public GameObject EmptyScoreboardMessage;
 	public TMP_Text FirstPlacePlayerName;
 	public TMP_Text FirstPlacePlayerScore;
 	public GameObject ScoreboardContent;
@@ -32,9 +35,6 @@ public class ScoreboardRenderer : MonoBehaviour {
 			
 			// Sort in descending order
 			scores.Sort((firstItem, secondItem) => -1 * firstItem.score.CompareTo(secondItem.score));
-			foreach(SerializableScore score in scores) {
-				Debug.Log(score.id + ": " + score.score);
-			}
 
 			FirstPlacePlayerName.text = scores[0].id;
 			FirstPlacePlayerScore.text = string.Format(ScoreStringFormat, scores[0].score);
@@ -51,6 +51,11 @@ public class ScoreboardRenderer : MonoBehaviour {
 				entryObject.transform.SetParent(ScoreboardContent.transform);
 				entryObject.transform.localScale = Vector3.one;
 			}
+		}
+		else {
+			FirstPlaceScore.SetActive(false);
+			RemainingScores.SetActive(false);
+			EmptyScoreboardMessage.SetActive(true);
 		}
 	}
 }

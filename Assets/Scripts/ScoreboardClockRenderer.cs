@@ -3,7 +3,6 @@ using TMPro;
 using System;
 
 public class ScoreboardClockRenderer : MonoBehaviour {
-	public Clock Clock;
 	TMP_Text text;
 	public string StringFormat = "Next game starts in {0}:{1:D2}";
 
@@ -12,7 +11,7 @@ public class ScoreboardClockRenderer : MonoBehaviour {
 	}
 
 	void Update() {
-		TimeSpan timeRemaining = Clock.TimeRemaining;
+		TimeSpan timeRemaining = TimeSpan.FromSeconds(Clock.Instance.SecondsRemaining);
 
 		text.text = string.Format(StringFormat, timeRemaining.Minutes, timeRemaining.Seconds, timeRemaining.Milliseconds);
 	}

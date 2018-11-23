@@ -30,7 +30,7 @@ public class ScoreboardManager : MonoBehaviour {
     }
 
     IEnumerator FetchScoreboard() {
-        UnityWebRequest request = UnityWebRequest.Get("http://localhost:1337/scoreboard");
+        UnityWebRequest request = UnityWebRequest.Get(APIManager.Instance.HostURL + APIManager.Instance.ScoreboardRoute);
         yield return request.SendWebRequest();
 
         if(request.isNetworkError || request.isHttpError) {

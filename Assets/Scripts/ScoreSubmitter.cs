@@ -14,7 +14,7 @@ public class ScoreSubmitter : MonoBehaviour {
         form.AddField("id", PlayerManager.Instance.Name);
         form.AddField("score", Score.Points.ToString());
 
-        UnityWebRequest request = UnityWebRequest.Post("http://localhost:1337/score", form);
+        UnityWebRequest request = UnityWebRequest.Post(APIManager.Instance.HostURL + APIManager.Instance.ScoreRoute, form);
         yield return request.SendWebRequest();
 
         if(request.isNetworkError || request.isHttpError) {

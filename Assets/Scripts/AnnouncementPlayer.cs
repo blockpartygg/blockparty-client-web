@@ -23,6 +23,10 @@ public class AnnouncementPlayer : MonoBehaviour {
 	}
 
 	public void Play(AnnouncementType type) {
+		if(image == null) {
+			return;
+		}
+		
 		switch(type) {
 			case AnnouncementType.PregameStart:
 				image.sprite = PregameStartImage;

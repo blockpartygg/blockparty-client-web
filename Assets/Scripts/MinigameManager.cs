@@ -8,7 +8,6 @@ public class MinigameManager : MonoBehaviour {
 	public BlockManager BlockManager;
 	public TMP_Text EliminatedText;
 	public ScoreSubmitter ScoreSubmitter;
-	public Clock Clock;
 	public AnnouncementPlayer AnnouncementPlayer;
 
 	void Awake() {
@@ -17,15 +16,15 @@ public class MinigameManager : MonoBehaviour {
 
 	void Start() {
 		PlayAnnouncement();
-		Clock.TimeExpired += HandleTimeExpired;
+		Clock.Instance.TimeExpired += HandleTimeExpired;
 	}
 
 	void HandleTimeExpired(object sender, EventArgs args) {
-		if(GameManager.Instance.State != GameManager.GameState.Scoreboard) {
+		if(Clock.Instance.State != GameManager.GameState.Scoreboard) {
 			PlayAnnouncement();
 		}
 		
-		if(GameManager.Instance.State == GameManager.GameState.Postgame) {
+		if(Clock.Instance.State == GameManager.GameState.Postgame) {
 			EndGame();
 			ScoreSubmitter.SubmitScoreAsync();
 		}
@@ -34,7 +33,7 @@ public class MinigameManager : MonoBehaviour {
 	void PlayAnnouncement() {
 		AnnouncementType announcementType = AnnouncementType.None;
 		
-		switch(GameManager.Instance.State) {
+		switch(Clock.Instance.State) {
 			case GameManager.GameState.Pregame:
 				announcementType = AnnouncementType.PregameStart;
 				break;
@@ -61,7 +60,9 @@ public class MinigameManager : MonoBehaviour {
 	}
 
 	public void EndGame() {
-		BoardController.enabled = false;
+		if(BoardController != null) {
+			BoardController.enabled = false;
+		}
 	}
 
 	void Update() {

@@ -5,7 +5,6 @@ using UnityEngine;
 using TMPro;
 
 public class GameClockRenderer : MonoBehaviour {
-	public Clock Clock;
 	TMP_Text text;
 	public string StringFormat = "{0}:{1:D2}<sup>:{2:D3}</sup>";
 
@@ -16,12 +15,12 @@ public class GameClockRenderer : MonoBehaviour {
 	void Update() {
 		TimeSpan timeRemaining = TimeSpan.Zero;
 
-		switch(GameManager.Instance.State) {
+		switch(Clock.Instance.State) {
 			case GameManager.GameState.Pregame:
 				timeRemaining = TimeSpan.FromMilliseconds(ConfigManager.Instance.InGameDuration);		
 				break;
 			case GameManager.GameState.InGame:
-				timeRemaining = Clock.TimeRemaining;
+				timeRemaining = TimeSpan.FromSeconds(Clock.Instance.SecondsRemaining);
 				break;
 			case GameManager.GameState.Postgame:
 				timeRemaining = TimeSpan.Zero;

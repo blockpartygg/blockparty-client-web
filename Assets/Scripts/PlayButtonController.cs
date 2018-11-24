@@ -6,6 +6,6 @@ public class PlayButtonController : MonoBehaviour {
 
     public void Play() {
         PlayerManager.Instance.SetName(NameInputField.text);
-        SceneManager.Instance.SetSyncToGameState(true);
+        SceneManager.Instance.SetSyncToClockState(true);
     }
 }

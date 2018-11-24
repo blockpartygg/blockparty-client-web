@@ -26,7 +26,9 @@ public class MinigameManager : MonoBehaviour {
 		
 		if(Clock.Instance.State == GameManager.GameState.Postgame) {
 			EndGame();
-			ScoreSubmitter.SubmitScoreAsync();
+			if(ScoreSubmitter != null) {
+				ScoreSubmitter.SubmitScoreAsync();
+			}
 		}
 	}
 
@@ -62,12 +64,6 @@ public class MinigameManager : MonoBehaviour {
 	public void EndGame() {
 		if(BoardController != null) {
 			BoardController.enabled = false;
-		}
-	}
-
-	void Update() {
-		if(Input.GetKeyDown("space")) {
-			ScoreSubmitter.SubmitScoreAsync();
 		}
 	}
 }

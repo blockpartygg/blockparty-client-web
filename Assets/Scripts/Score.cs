@@ -20,35 +20,27 @@ public class Score : MonoBehaviour {
     readonly int[] chainValue = new int[] { 0, 50, 80, 150, 300, 400, 500, 700, 900, 1100, 1300, 1500, 1800 };
     const int raiseValue = 1;
 
+    void Reset() {
+        Points = 0;
+    }
+
     public void ScoreMatch() {
         int points = matchValue;
         Points += points;
-        // if(AuthenticationManager.Instance.CurrentUser != null && SocketManager.Instance.IsConnected) {
-        //     SocketManager.Instance.Socket.Emit("blockParty/scorePoints", AuthenticationManager.Instance.CurrentUser.UserId, points);
-        // }
     }
 
     public void ScoreCombo(int matchedBlockCount) {
         int points = comboValue[Math.Min(matchedBlockCount - 1, comboValue.Length - 1)];
         Points += points;
-        // if(AuthenticationManager.Instance.CurrentUser != null && SocketManager.Instance.IsConnected) {
-        //     SocketManager.Instance.Socket.Emit("blockParty/scorePoints", AuthenticationManager.Instance.CurrentUser.UserId, points);
-        // }
     }
 
     public void ScoreChain(int chainLength) {
         int points = chainValue[Math.Min(chainLength - 1, chainValue.Length - 1)];
         Points += points;
-        // if(AuthenticationManager.Instance.CurrentUser != null && SocketManager.Instance.IsConnected) {
-        //     SocketManager.Instance.Socket.Emit("blockParty/scorePoints", AuthenticationManager.Instance.CurrentUser.UserId, points);
-        // }
     }
 
     public void ScoreRaise() {
         int points = raiseValue;
         Points += points;
-        // if(AuthenticationManager.Instance.CurrentUser != null && SocketManager.Instance.IsConnected) {
-        //     SocketManager.Instance.Socket.Emit("blockParty/scorePoints", AuthenticationManager.Instance.CurrentUser.UserId, points);
-        // }
     }
 }

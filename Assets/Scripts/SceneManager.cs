@@ -3,36 +3,36 @@ using System;
 using System.Collections;
 
 public class SceneManager : Singleton<SceneManager> {
-    bool isSyncingToGameState;
+    bool isSyncingToClockState;
     bool isLoadingScene;
     const string TitleSceneName = "Title";
     const string GameSceneName = "Game";
     const string ScoreboardSceneName = "Scoreboard";
 
     void Start() {
-        GameManager.Instance.GameUpdated += HandleGameUpdated;
+        Clock.Instance.TimeExpired += HandleTimeExpired;
     }
 
-    void HandleGameUpdated(object sender, EventArgs args) {
-        if(isSyncingToGameState) {
-            SyncToGameState();
+    void HandleTimeExpired(object sender, EventArgs args) {
+        if(isSyncingToClockState) {
+            SyncToClockState();
         }
     }
 
-    public void SetSyncToGameState(bool isSyncingToGameState) {
-        this.isSyncingToGameState = isSyncingToGameState;
+    public void SetSyncToClockState(bool isSyncingToClockState) {
+        this.isSyncingToClockState = isSyncingToClockState;
 
-        if(isSyncingToGameState) {
-            SyncToGameState();
+        if(isSyncingToClockState) {
+            SyncToClockState();
         }
         else {
             LoadSceneAsync(TitleSceneName);
         }
     }
 
-    void SyncToGameState() {
+    void SyncToClockState() {
         string sceneToLoad = "";
-        switch(GameManager.Instance.State) {
+        switch(Clock.Instance.State) {
             case GameManager.GameState.Pregame:
             case GameManager.GameState.InGame:
             case GameManager.GameState.Postgame:

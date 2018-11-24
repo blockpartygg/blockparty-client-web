@@ -49,7 +49,7 @@ public class BoardRaiser : MonoBehaviour {
 				LossElapsed += raiseRate * Time.deltaTime;
 
 				if(LossElapsed >= LossDuration) {
-					MinigameManager.EndGame();
+					// MinigameManager.EndGame();
 				}
 			}
 			else {

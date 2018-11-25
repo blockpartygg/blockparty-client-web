@@ -112,7 +112,7 @@ public class BoardGravity : MonoBehaviour {
         }
 
         // In Time Attack mode, spawn in new blocks from the top when there's space to add them
-        if(GameManager.Instance.Mode == GameManager.GameMode.TimeAttack) {
+        if(Clock.Instance.Mode == GameManager.GameMode.TimeAttack) {
             for(int column = 0; column < BlockManager.Columns; column++) {
                 if(BlockManager.Blocks[column, BlockManager.Rows - 1].State == BlockState.Empty) {
                     BlockManager.Blocks[column, BlockManager.Rows - 1].Type = BlockManager.GetRandomBlockType(column, BlockManager.Rows - 1);

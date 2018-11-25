@@ -112,7 +112,7 @@ public class BlockRenderer: MonoBehaviour {
         switch(Block.State) {
             case BlockState.Idle:
                 transform.position = transform.parent.position + blockTranslation + raiseTranslation + garbageTranslation;
-                if(GameManager.Instance.Mode == GameManager.GameMode.Survival) {
+                if(Clock.Instance.Mode == GameManager.GameMode.Survival) {
                     if(blockManager.Blocks[Block.Column, BlockManager.Rows - 2].State != BlockState.Empty || 
                         blockManager.Blocks[Block.Column, BlockManager.Rows - 3].State != BlockState.Empty) {
                         SpriteRenderer.sprite = hoppingSprites[Block.Type][(int)(Time.time * 10) % 4];

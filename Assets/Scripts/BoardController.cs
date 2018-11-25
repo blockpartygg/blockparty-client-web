@@ -12,7 +12,7 @@ public class BoardController : MonoBehaviour {
 	const float doubleTapDuration = 0.5f;
 
 	void Update() {
-		// if(GameManager.Instance.State == GameManager.GameState.MinigamePlay) {
+		if(Clock.Instance.State == GameManager.GameState.InGame) {
 			if(Input.GetMouseButtonDown(0)) {
 				RaycastHit2D hit = Physics2D.Raycast(Camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 				if(hit.collider != null && hit.collider.name.Contains("Block")) {
@@ -22,7 +22,7 @@ public class BoardController : MonoBehaviour {
 					}
 				}
 
-				if(GameManager.Instance.Mode == GameManager.GameMode.Survival) {
+				if(Clock.Instance.Mode == GameManager.GameMode.Survival) {
 					if(Time.time - previousTapTime <= doubleTapDuration) {
 						BoardRaiser.ForceRaise();
 					}
@@ -78,7 +78,7 @@ public class BoardController : MonoBehaviour {
 					AudioSource.Play();
 				}
 			}
-		// }
+		}
 	}
 
 	void SetupSlide(Block block, SlideDirection direction) {

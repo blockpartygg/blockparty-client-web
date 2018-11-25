@@ -3,6 +3,7 @@ using System;
 
 public class Clock : Singleton<Clock> {
     public GameManager.GameState State;
+    public GameManager.GameMode Mode;
     public float SecondsRemaining;
     public event EventHandler TimeExpired;
     DateTime endTime;
@@ -14,6 +15,7 @@ public class Clock : Singleton<Clock> {
 
     void HandleGameUpdated(object sender, EventArgs args) {
         State = GameManager.Instance.State;
+        Mode = GameManager.Instance.Mode;
         endTime = GameManager.Instance.EndTime;
         GameManager.Instance.GameUpdated -= HandleGameUpdated;
     }
@@ -40,6 +42,7 @@ public class Clock : Singleton<Clock> {
                     break;
                 case GameManager.GameState.Scoreboard:
                     State = GameManager.GameState.Pregame;
+                    Mode = Mode == GameManager.GameMode.TimeAttack ? GameManager.GameMode.Survival : GameManager.GameMode.TimeAttack;
                     endTime = DateTime.Now + TimeSpan.FromMilliseconds(ConfigManager.Instance.PregameDuration);
                     break;
             }

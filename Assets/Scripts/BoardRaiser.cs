@@ -11,8 +11,10 @@ public class BoardRaiser : MonoBehaviour {
 	public MatchDetector MatchDetector;
 
 	bool isForcingRaise;
-	const float defaultRaiseRate = 1f;
-	const float forcedRaiseRate = 20f;
+	[SerializeField] float raiseRate = 1f;
+	public float InitialRaiseRate = 1f;
+	public float EndingRaiseRate = 10f;
+	public float ForcedRaiseRate = 20f;
 	bool isLossIncoming;
 
 	public void ForceRaise() {
@@ -20,15 +22,15 @@ public class BoardRaiser : MonoBehaviour {
 	}
 
 	void Update() {
-		if(GameManager.Instance.Mode == GameManager.GameMode.Survival) {
-			float raiseRate;
+		if(Clock.Instance.State == GameManager.GameState.InGame && Clock.Instance.Mode == GameManager.GameMode.Survival) {
 			if(isForcingRaise) {
-				raiseRate = forcedRaiseRate;
+				raiseRate = ForcedRaiseRate;
 			}
 			else {
-				raiseRate = defaultRaiseRate;	
+				// Scale raise rate based on remaining time
+				raiseRate = Mathf.Lerp(InitialRaiseRate, EndingRaiseRate, ((ConfigManager.Instance.InGameDuration / 1000) - Clock.Instance.SecondsRemaining) / (ConfigManager.Instance.InGameDuration / 1000));	
 			}
-
+			
 			for(int column = 0; column < BlockManager.Columns; column++) {
 				for(int row = 0; row < BlockManager.Rows; row++) {
 					if(BlockManager.Blocks[column, row].State != BlockState.Empty &&
@@ -49,7 +51,8 @@ public class BoardRaiser : MonoBehaviour {
 				LossElapsed += raiseRate * Time.deltaTime;
 
 				if(LossElapsed >= LossDuration) {
-					// MinigameManager.EndGame();
+					MinigameManager.EliminatePlayer();
+					MinigameManager.EndGame();
 				}
 			}
 			else {

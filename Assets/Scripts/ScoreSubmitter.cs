@@ -20,8 +20,5 @@ public class ScoreSubmitter : MonoBehaviour {
         if(request.isNetworkError || request.isHttpError) {
             Debug.Log(request.error);
         }
-        else {
-            Debug.Log("Sent HTTP POST");
-        }
     }
 }

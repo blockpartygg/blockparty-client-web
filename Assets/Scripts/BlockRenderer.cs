@@ -79,6 +79,7 @@ public class BlockRenderer: MonoBehaviour {
                 break;
             case BlockState.WaitingToEmpty:
             case BlockState.Empty:
+                SpriteRenderer.sprite = null;
                 break;
             default:
                 SpriteRenderer.transform.localScale = Vector3.one;

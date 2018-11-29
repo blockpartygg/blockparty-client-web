@@ -7,8 +7,9 @@ public class APIManager : Singleton<APIManager> {
     public string HostURL = "https://blockparty-server.herokuapp.com/";
     #endif
 
-    public string GameRoute = "game";
     public string ConfigRoute = "config";
-    public string ScoreboardRoute = "scoreboard";
+    public string GameRoute = "game";
     public string ScoreRoute = "score";
+    public string ScoreboardRoute = "scoreboard";
+    public string LeaderboardRoute = "leaderboard";
 }

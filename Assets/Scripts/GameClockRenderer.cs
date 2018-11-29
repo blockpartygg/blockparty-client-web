@@ -16,13 +16,13 @@ public class GameClockRenderer : MonoBehaviour {
 		TimeSpan timeRemaining = TimeSpan.Zero;
 
 		switch(Clock.Instance.State) {
-			case GameManager.GameState.Pregame:
-				timeRemaining = TimeSpan.FromMilliseconds(ConfigManager.Instance.InGameDuration);		
+			case GameManager.GameState.PreMinigame:
+				timeRemaining = TimeSpan.FromMilliseconds(ConfigManager.Instance.InMinigameDuration);		
 				break;
-			case GameManager.GameState.InGame:
+			case GameManager.GameState.InMinigame:
 				timeRemaining = TimeSpan.FromSeconds(Clock.Instance.SecondsRemaining);
 				break;
-			case GameManager.GameState.Postgame:
+			case GameManager.GameState.PostMinigame:
 				timeRemaining = TimeSpan.Zero;
 				break;
 		}

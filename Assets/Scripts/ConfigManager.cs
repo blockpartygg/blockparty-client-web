@@ -10,12 +10,22 @@ using System.Collections;
             public int duration;
         }
 
-        [Serializable] public class SerializableInGame {
+        [Serializable] public class SerializablePreRound {
             public string id;
             public int duration;
         }
 
-        [Serializable] public class SerializablePostgame {
+        [Serializable] public class SerializablePreMinigame {
+            public string id;
+            public int duration;
+        }
+
+        [Serializable] public class SerializableInMinigame {
+            public string id;
+            public int duration;
+        }
+
+        [Serializable] public class SerializablePostMinigame {
             public string id;
             public int duration;
         }
@@ -25,10 +35,24 @@ using System.Collections;
             public int duration;
         }
 
+        [Serializable] public class SerializableLeaderboard {
+            public string id;
+            public int duration;
+        }
+
+        [Serializable] public class SerializablePostgame {
+            public string id;
+            public int duration;
+        }
+
         public SerializablePregame pregame;
-        public SerializableInGame inGame;
-        public SerializablePostgame postgame;
+        public SerializablePreRound preRound;
+        public SerializablePreMinigame preMinigame;
+        public SerializableInMinigame inMinigame;
+        public SerializablePostMinigame postMinigame;
         public SerializableScoreboard scoreboard;
+        public SerializableLeaderboard leaderboard;
+        public SerializablePostgame postgame;
     }
 
     [Serializable] public class SerializableModes {
@@ -38,12 +62,18 @@ using System.Collections;
 
     public SerializableStates states;
     public SerializableModes modes;
+    public int roundCount;
 }
 public class ConfigManager : Singleton<ConfigManager> {
     public int PregameDuration;
-    public int InGameDuration;
-    public int PostgameDuration;
+    public int PreRoundDuration;
+    public int PreMinigameDuration;
+    public int InMinigameDuration;
+    public int PostMinigameDuration;
     public int ScoreboardDuration;
+    public int LeaderboardDuration;
+    public int PostgameDuration;
+    public int RoundCount;
 
     void Start() {
         FetchConfigAsync();
@@ -64,9 +94,14 @@ public class ConfigManager : Singleton<ConfigManager> {
             string text = request.downloadHandler.text;
             SerializableConfig config = JsonUtility.FromJson<SerializableConfig>(text);
             PregameDuration = config.states.pregame.duration;
-            InGameDuration = config.states.inGame.duration;
-            PostgameDuration = config.states.postgame.duration;
+            PreRoundDuration = config.states.preRound.duration;
+            PreMinigameDuration = config.states.preMinigame.duration;
+            InMinigameDuration = config.states.inMinigame.duration;
+            PostMinigameDuration = config.states.postMinigame.duration;
             ScoreboardDuration = config.states.scoreboard.duration;
+            LeaderboardDuration = config.states.leaderboard.duration;
+            PostgameDuration = config.states.postgame.duration;
+            RoundCount = config.roundCount;
         }
     }
 }

@@ -12,7 +12,7 @@ public class BoardController : MonoBehaviour {
 	const float doubleTapDuration = 0.5f;
 
 	void Update() {
-		if(Clock.Instance.State == GameManager.GameState.InGame) {
+		if(Clock.Instance.State == GameManager.GameState.InMinigame) {
 			if(Input.GetMouseButtonDown(0)) {
 				RaycastHit2D hit = Physics2D.Raycast(Camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 				if(hit.collider != null && hit.collider.name.Contains("Block")) {

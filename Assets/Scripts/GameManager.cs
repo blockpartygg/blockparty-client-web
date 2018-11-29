@@ -9,19 +9,26 @@ public class SerializableGame {
 
     public string state;
     public string endTime;
+    public int round;
     public string mode;
 }
 
 public class GameManager : Singleton<GameManager> {
     public enum GameState {
         Pregame,
-        InGame,
-        Postgame,
-        Scoreboard
+        PreRound,
+        PreMinigame,
+        InMinigame,
+        PostMinigame,
+        Scoreboard,
+        Leaderboard,
+        Postgame
     }
     public GameState State;
     public DateTime EndTime;
+    public int Round;
     public enum GameMode {
+        None,
         TimeAttack,
         Survival
     }
@@ -52,7 +59,8 @@ public class GameManager : Singleton<GameManager> {
             SerializableGame game = JsonUtility.FromJson<SerializableGame>(text);
             State = (GameState)Enum.Parse(typeof(GameState), game.state, true);
             EndTime = DateTime.Parse(game.endTime);
-            Mode = (GameMode)Enum.Parse(typeof(GameMode), game.mode, true);
+            Round = game.round;
+            Mode = !string.IsNullOrEmpty(game.mode) ? (GameMode)Enum.Parse(typeof(GameMode), game.mode, true) : GameMode.None;
 
             if(GameUpdated != null) {
                 GameUpdated(this, null);

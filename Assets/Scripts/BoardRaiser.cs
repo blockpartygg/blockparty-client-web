@@ -22,13 +22,13 @@ public class BoardRaiser : MonoBehaviour {
 	}
 
 	void Update() {
-		if(Clock.Instance.State == GameManager.GameState.InGame && Clock.Instance.Mode == GameManager.GameMode.Survival) {
+		if(Clock.Instance.State == GameManager.GameState.InMinigame && Clock.Instance.Mode == GameManager.GameMode.Survival) {
 			if(isForcingRaise) {
 				raiseRate = ForcedRaiseRate;
 			}
 			else {
 				// Scale raise rate based on remaining time
-				raiseRate = Mathf.Lerp(InitialRaiseRate, EndingRaiseRate, ((ConfigManager.Instance.InGameDuration / 1000) - Clock.Instance.SecondsRemaining) / (ConfigManager.Instance.InGameDuration / 1000));	
+				raiseRate = Mathf.Lerp(InitialRaiseRate, EndingRaiseRate, ((ConfigManager.Instance.InMinigameDuration / 1000) - Clock.Instance.SecondsRemaining) / (ConfigManager.Instance.InMinigameDuration / 1000));	
 			}
 			
 			for(int column = 0; column < BlockManager.Columns; column++) {

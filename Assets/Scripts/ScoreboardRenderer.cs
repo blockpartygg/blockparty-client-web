@@ -58,4 +58,8 @@ public class ScoreboardRenderer : MonoBehaviour {
 			EmptyScoreboardMessage.SetActive(true);
 		}
 	}
+
+	void Destroy() {
+		scoreboardManager.ScoreboardUpdated -= HandleScoreboardUpdated;
+	}
 }

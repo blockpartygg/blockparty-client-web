@@ -5,9 +5,13 @@ using System.Collections;
 public class SceneManager : Singleton<SceneManager> {
     bool isSyncingToClockState;
     bool isLoadingScene;
-    const string TitleSceneName = "Title";
-    const string GameSceneName = "Game";
-    const string ScoreboardSceneName = "Scoreboard";
+    public string TitleSceneName = "Title";
+    public string PregameSceneName = "Pregame";
+    public string PreRoundSceneName = "PreRound";
+    public string MinigameSceneName = "Minigame";
+    public string ScoreboardSceneName = "Scoreboard";
+    public string LeaderboardSceneName = "Leaderboard";
+    public string PostgameSceneName = "Postgame";
 
     void Start() {
         Clock.Instance.TimeExpired += HandleTimeExpired;
@@ -34,12 +38,24 @@ public class SceneManager : Singleton<SceneManager> {
         string sceneToLoad = "";
         switch(Clock.Instance.State) {
             case GameManager.GameState.Pregame:
-            case GameManager.GameState.InGame:
-            case GameManager.GameState.Postgame:
-                sceneToLoad = GameSceneName;
+                sceneToLoad = PregameSceneName;
+                break;
+            case GameManager.GameState.PreRound:
+                sceneToLoad = PreRoundSceneName;
+                break;
+            case GameManager.GameState.PreMinigame:
+            case GameManager.GameState.InMinigame:
+            case GameManager.GameState.PostMinigame:
+                sceneToLoad = MinigameSceneName;
                 break;
             case GameManager.GameState.Scoreboard:
                 sceneToLoad = ScoreboardSceneName;
+                break;
+            case GameManager.GameState.Leaderboard:
+                sceneToLoad = LeaderboardSceneName;
+                break;
+            case GameManager.GameState.Postgame:
+                sceneToLoad = PostgameSceneName;
                 break;
         }
 

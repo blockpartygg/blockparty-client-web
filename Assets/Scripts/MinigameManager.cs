@@ -24,7 +24,7 @@ public class MinigameManager : MonoBehaviour {
 			PlayAnnouncement();
 		}
 		
-		if(Clock.Instance.State == GameManager.GameState.Postgame) {
+		if(Clock.Instance.State == GameManager.GameState.PostMinigame) {
 			EndGame();
 			if(ScoreSubmitter != null) {
 				ScoreSubmitter.SubmitScoreAsync();
@@ -36,13 +36,13 @@ public class MinigameManager : MonoBehaviour {
 		AnnouncementType announcementType = AnnouncementType.None;
 		
 		switch(Clock.Instance.State) {
-			case GameManager.GameState.Pregame:
+			case GameManager.GameState.PreMinigame:
 				announcementType = AnnouncementType.PregameStart;
 				break;
-			case GameManager.GameState.InGame:
+			case GameManager.GameState.InMinigame:
 				announcementType = AnnouncementType.InGameStart;
 				break;
-			case GameManager.GameState.Postgame:
+			case GameManager.GameState.PostMinigame:
 				announcementType = AnnouncementType.PostgameStart;
 				break;
 			default:

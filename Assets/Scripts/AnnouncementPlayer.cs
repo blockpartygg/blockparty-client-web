@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using DG.Tweening;
 
 public enum AnnouncementType {
@@ -16,35 +15,34 @@ public class AnnouncementPlayer : MonoBehaviour {
 	public Sprite PregameStartImage;
 	public Sprite InGameStartImage;
 	public Sprite PostgameStartImage;
-	Image image;
+	SpriteRenderer spriteRenderer;
 
 	void Awake() {
-		image = GetComponent<Image>();
+		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 
 	public void Play(AnnouncementType type) {
-		if(image == null) {
+		if(spriteRenderer == null) {
 			return;
 		}
 		
 		switch(type) {
 			case AnnouncementType.PregameStart:
-				image.sprite = PregameStartImage;
+				spriteRenderer.sprite = PregameStartImage;
 				break;
 			case AnnouncementType.InGameStart:
-				image.sprite = InGameStartImage;
+				spriteRenderer.sprite = InGameStartImage;
 				break;
 			case AnnouncementType.PostgameStart:
-				image.sprite = PostgameStartImage;
+				spriteRenderer.sprite = PostgameStartImage;
 				break;
 			default:
 				return;
 		}
 
-		image.SetNativeSize();
 		transform.localScale = new Vector3(3f, 3f, 3f);
 		transform.DOScale(Vector3.one, 0.25f);
-		image.color = Color.white;
-		image.DOColor(Color.clear, 1.0f).SetDelay(1f);
+		spriteRenderer.color = Color.white;
+		spriteRenderer.DOColor(Color.clear, 1.0f).SetDelay(1f);
 	}
 }

@@ -3,10 +3,12 @@ using System;
 
 public class Clock : Singleton<Clock> {
     public GameManager.GameState State;
-    public GameManager.GameMode Mode;
-    public float SecondsRemaining;
-    public event EventHandler TimeExpired;
     DateTime endTime;
+    public float SecondsRemaining;
+    public int Round;
+    public GameManager.GameMode Mode;
+    
+    public event EventHandler TimeExpired;
 
     public void SyncToServerClock() {
         GameManager.Instance.GameUpdated += HandleGameUpdated;
@@ -15,8 +17,10 @@ public class Clock : Singleton<Clock> {
 
     void HandleGameUpdated(object sender, EventArgs args) {
         State = GameManager.Instance.State;
-        Mode = GameManager.Instance.Mode;
         endTime = GameManager.Instance.EndTime;
+        Round = GameManager.Instance.Round;
+        Mode = GameManager.Instance.Mode;
+        
         GameManager.Instance.GameUpdated -= HandleGameUpdated;
     }
 
@@ -25,25 +29,45 @@ public class Clock : Singleton<Clock> {
         TimeSpan timeRemaining = endTime - DateTime.Now;
         SecondsRemaining = (float)timeRemaining.TotalSeconds;
 
-        // When it's the state end time, set the next state
+        // When it's the state end time, set the next state based on the current one
         if(SecondsRemaining <= 0) {
             switch(State) {
                 case GameManager.GameState.Pregame:
-                    State = GameManager.GameState.InGame;
-                    endTime = DateTime.Now + TimeSpan.FromMilliseconds(ConfigManager.Instance.InGameDuration);
+                    SetupPreRound();
                     break;
-                case GameManager.GameState.InGame:
-                    State = GameManager.GameState.Postgame;
-                    endTime = DateTime.Now + TimeSpan.FromMilliseconds(ConfigManager.Instance.PostgameDuration);
+                case GameManager.GameState.PreRound:
+                    State = GameManager.GameState.PreMinigame;
+                    endTime = DateTime.Now + TimeSpan.FromMilliseconds(ConfigManager.Instance.PreMinigameDuration);
                     break;
-                case GameManager.GameState.Postgame:
+                case GameManager.GameState.PreMinigame:
+                    State = GameManager.GameState.InMinigame;
+                    endTime = DateTime.Now + TimeSpan.FromMilliseconds(ConfigManager.Instance.InMinigameDuration);
+                    break;
+                case GameManager.GameState.InMinigame:
+                    State = GameManager.GameState.PostMinigame;
+                    endTime = DateTime.Now + TimeSpan.FromMilliseconds(ConfigManager.Instance.PostMinigameDuration);
+                    break;
+                case GameManager.GameState.PostMinigame:
                     State = GameManager.GameState.Scoreboard;
                     endTime = DateTime.Now + TimeSpan.FromMilliseconds(ConfigManager.Instance.ScoreboardDuration);
                     break;
                 case GameManager.GameState.Scoreboard:
+                    if(Round < ConfigManager.Instance.RoundCount) {
+                        State = GameManager.GameState.Leaderboard;
+                        endTime = DateTime.Now + TimeSpan.FromMilliseconds(ConfigManager.Instance.LeaderboardDuration);
+                    } else {
+                        State = GameManager.GameState.Postgame;
+                        endTime = DateTime.Now + TimeSpan.FromMilliseconds(ConfigManager.Instance.PostgameDuration);
+                    }
+                    break;
+                case GameManager.GameState.Leaderboard:
+                    SetupPreRound();
+                    break;
+                case GameManager.GameState.Postgame:
                     State = GameManager.GameState.Pregame;
-                    Mode = Mode == GameManager.GameMode.TimeAttack ? GameManager.GameMode.Survival : GameManager.GameMode.TimeAttack;
                     endTime = DateTime.Now + TimeSpan.FromMilliseconds(ConfigManager.Instance.PregameDuration);
+                    Round = 0;
+                    Mode = GameManager.GameMode.None;
                     break;
             }
 
@@ -51,5 +75,12 @@ public class Clock : Singleton<Clock> {
                 TimeExpired(this, null);
             }
         }
+    }
+
+    void SetupPreRound() {
+        State = GameManager.GameState.PreRound;
+        endTime = DateTime.Now + TimeSpan.FromMilliseconds(ConfigManager.Instance.PreRoundDuration);
+        Round++;
+        Mode = Mode == GameManager.GameMode.None || Mode == GameManager.GameMode.Survival ? GameManager.GameMode.TimeAttack : GameManager.GameMode.Survival;
     }
 }

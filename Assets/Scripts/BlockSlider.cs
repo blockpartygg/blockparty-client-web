@@ -8,11 +8,11 @@ public enum SlideDirection {
 
 public class BlockSlider : MonoBehaviour {   
     public Block Block;
+    public BlockData BlockData;
     public SlideDirection Direction;
     public BlockState TargetState;
     public int TargetType;
     public float Elapsed;
-    public const float Duration = 0.1f;
     MatchDetector matchDetector;
 
     void Awake() {
@@ -29,7 +29,7 @@ public class BlockSlider : MonoBehaviour {
         if(Block.State == BlockState.Sliding) {
             Elapsed += Time.deltaTime;
 
-            if(Elapsed >= Duration) {
+            if(Elapsed >= BlockData.SlideDuration) {
                 Block.State = TargetState;
                 Block.Type = TargetType;
                 Direction = SlideDirection.None;

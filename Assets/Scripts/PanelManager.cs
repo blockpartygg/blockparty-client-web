@@ -5,6 +5,7 @@ public class PanelManager : MonoBehaviour {
     public Panel PanelPrefab;
     public GameObject PanelParent;
     public BoardRaiser BoardRaiser;
+    public BoardData BoardData;
     public const int Columns = 6, Rows = 12;
 
     Vector3 initialPosition;
@@ -28,7 +29,7 @@ public class PanelManager : MonoBehaviour {
     }
 
     void Update() {
-        Vector3 raiseTranslation = initialPosition + new Vector3(0, BoardRaiser.Elapsed / BoardRaiser.Duration);
+        Vector3 raiseTranslation = initialPosition + new Vector3(0, BoardRaiser.Elapsed / BoardData.RaiseDuration);
 
 		transform.position = raiseTranslation;
     }

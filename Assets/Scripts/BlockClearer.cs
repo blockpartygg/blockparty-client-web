@@ -2,14 +2,13 @@ using UnityEngine;
 
 public class BlockClearer : MonoBehaviour {
     public Block Block;
+    public BlockData BlockData;
     public BlockEmptier Emptier;
     public Score Score;
     public AudioSource AudioSource;
     float delayElapsed;
-    public const float DelayInterval = 0.25f;
     public float DelayDuration;
     public float Elapsed;
-    public const float Duration = 0.25f;
     bool isEndingGame;
 
     void Awake() {
@@ -29,9 +28,7 @@ public class BlockClearer : MonoBehaviour {
             if(delayElapsed >= DelayDuration && !isEndingGame) {
                 Block.State = BlockState.Clearing;
                 Elapsed = 0f;
-
                 Score.ScoreMatch();
-
                 AudioSource.Play();
             }
         }
@@ -39,7 +36,7 @@ public class BlockClearer : MonoBehaviour {
         if(Block.State == BlockState.Clearing) {
             Elapsed += Time.deltaTime;
 
-            if(Elapsed >= Duration) {
+            if(Elapsed >= BlockData.ClearDuration) {
                 Emptier.Empty();
             }
         }

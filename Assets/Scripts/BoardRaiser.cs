@@ -1,20 +1,16 @@
 ﻿using UnityEngine;
 
 public class BoardRaiser : MonoBehaviour {
+	public BoardData BoardData;
 	public MinigameManager MinigameManager;
 	public BlockManager BlockManager;
 	public Score Score;
 	public float Elapsed;
 	public float LossElapsed;
-	public const float Duration = 10f;
-	public const float LossDuration = 3f;
 	public MatchDetector MatchDetector;
 
 	bool isForcingRaise;
 	[SerializeField] float raiseRate = 1f;
-	public float InitialRaiseRate = 1f;
-	public float EndingRaiseRate = 10f;
-	public float ForcedRaiseRate = 20f;
 	bool isLossIncoming;
 
 	public void ForceRaise() {
@@ -24,11 +20,11 @@ public class BoardRaiser : MonoBehaviour {
 	void Update() {
 		if(Clock.Instance.State == GameManager.GameState.InMinigame && Clock.Instance.Mode == GameManager.GameMode.Survival) {
 			if(isForcingRaise) {
-				raiseRate = ForcedRaiseRate;
+				raiseRate = BoardData.ManualRaiseRate;
 			}
 			else {
 				// Scale raise rate based on remaining time
-				raiseRate = Mathf.Lerp(InitialRaiseRate, EndingRaiseRate, ((ConfigManager.Instance.InMinigameDuration / 1000) - Clock.Instance.SecondsRemaining) / (ConfigManager.Instance.InMinigameDuration / 1000));	
+				raiseRate = Mathf.Lerp(BoardData.MinimumRaiseRate, BoardData.MaximumRaiseRate, ((ConfigManager.Instance.InMinigameDuration / 1000) - Clock.Instance.SecondsRemaining) / (ConfigManager.Instance.InMinigameDuration / 1000));	
 			}
 			
 			for(int column = 0; column < BlockManager.Columns; column++) {
@@ -50,7 +46,7 @@ public class BoardRaiser : MonoBehaviour {
 			if(isLossIncoming) {
 				LossElapsed += raiseRate * Time.deltaTime;
 
-				if(LossElapsed >= LossDuration) {
+				if(LossElapsed >= BoardData.RaiseLossCountdownDuration) {
 					MinigameManager.EliminatePlayer();
 					MinigameManager.EndGame();
 				}
@@ -58,7 +54,7 @@ public class BoardRaiser : MonoBehaviour {
 			else {
 				Elapsed += raiseRate * Time.deltaTime;
 
-				if(Elapsed >= Duration) {
+				if(Elapsed >= BoardData.RaiseDuration) {
 					Elapsed = 0f;
 
 					for(int column = 0; column < BlockManager.Columns; column++) {

@@ -59,7 +59,7 @@ public class ScoreboardRenderer : MonoBehaviour {
 		}
 	}
 
-	void Destroy() {
+	void OnDestroy() {
 		scoreboardManager.ScoreboardUpdated -= HandleScoreboardUpdated;
 	}
 }

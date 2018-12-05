@@ -5,5 +5,9 @@ public class AppBootstrapper : MonoBehaviour {
         GameManager.Instance.FetchGameAsync();
         ConfigManager.Instance.FetchConfigAsync();
         Clock.Instance.SyncToServerClock();
+        
+        if(!SocketManager.Instance.IsConnected) {
+            SocketManager.Instance.Connect();
+        }
     }
 }

@@ -12,4 +12,6 @@ public class APIManager : Singleton<APIManager> {
     public string ScoreRoute = "score";
     public string ScoreboardRoute = "scoreboard";
     public string LeaderboardRoute = "leaderboard";
+    public string DailyLeaderboardRoute = "dailyleaderboard";
+    public string SocketIORoute = "socket.io/";
 }

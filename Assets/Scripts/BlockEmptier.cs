@@ -3,7 +3,6 @@ using UnityEngine;
 public class BlockEmptier : MonoBehaviour {
     public Block Block;
     float delayElapsed;
-    public const float DelayInterval = 0.25f;
     public float DelayDuration;
 
     public void Empty() {

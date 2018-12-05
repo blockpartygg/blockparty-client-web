@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
 public class BlockKiller : MonoBehaviour {
+	public BlockData BlockData;
 	bool dying;
 	float delayElapsed;
 	float delayDuration;
 	float velocity = 0;
-	const float gravityAcceleration = -0.005f;
 
 	public void Kill() {
 		dying = true;
@@ -17,7 +17,7 @@ public class BlockKiller : MonoBehaviour {
 			delayElapsed += Time.deltaTime;
 
 			if(delayElapsed >= delayDuration) {
-				velocity += gravityAcceleration;
+				velocity += BlockData.EndAnimationGravity;
 				transform.Translate(new Vector3(0, velocity));
 			}
 		}

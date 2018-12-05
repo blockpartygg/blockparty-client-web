@@ -12,6 +12,7 @@ public class SceneManager : Singleton<SceneManager> {
     public string ScoreboardSceneName = "Scoreboard";
     public string LeaderboardSceneName = "Leaderboard";
     public string PostgameSceneName = "Postgame";
+    public string LeaderboardsSceneName = "DailyLeaderboard";
 
     void Start() {
         Clock.Instance.TimeExpired += HandleTimeExpired;

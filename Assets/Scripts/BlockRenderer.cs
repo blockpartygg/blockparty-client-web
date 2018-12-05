@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class BlockRenderer: MonoBehaviour {
     public Block Block;
+    public BlockData BlockData;
+    public BoardData BoardData;
     public BlockGarbage Garbage;
     public BlockSlider Slider;
     public BlockFaller Faller;
@@ -58,7 +60,7 @@ public class BlockRenderer: MonoBehaviour {
     }
 
     void UpdatePosition() {
-        Vector3 raiseTranslation = new Vector3(0, boardRaiser.Elapsed / BoardRaiser.Duration);
+        Vector3 raiseTranslation = new Vector3(0, boardRaiser.Elapsed / BoardData.RaiseDuration);
         transform.position = transform.parent.position + blockTranslation + raiseTranslation + garbageTranslation;
     }
 
@@ -107,7 +109,7 @@ public class BlockRenderer: MonoBehaviour {
     }
 
     void FixedUpdate() {
-        Vector3 raiseTranslation = new Vector3(0, boardRaiser.Elapsed / BoardRaiser.Duration);
+        Vector3 raiseTranslation = new Vector3(0, boardRaiser.Elapsed / BoardData.RaiseDuration);
         float timePercentage;
 
         switch(Block.State) {
@@ -125,12 +127,12 @@ public class BlockRenderer: MonoBehaviour {
                 break;
             case BlockState.Sliding:
                 float direction = Slider.Direction == SlideDirection.Left ? -1 : 1;
-                timePercentage = Slider.Elapsed / BlockSlider.Duration;
+                timePercentage = Slider.Elapsed / BlockData.SlideDuration;
                 Vector3 slideTranslation = new Vector3(direction * timePercentage, 0);
                 transform.position = transform.parent.position + blockTranslation + raiseTranslation + slideTranslation;
                 break;
             case BlockState.Falling:
-                timePercentage = Faller.Elapsed / BlockFaller.Duration;
+                timePercentage = Faller.Elapsed / BlockData.FallDuration;
                 Vector3 fallTranslation = new Vector3(0, -1 * timePercentage);
                 transform.position = transform.parent.position + blockTranslation + garbageTranslation + raiseTranslation + fallTranslation;
                 break;
@@ -138,7 +140,7 @@ public class BlockRenderer: MonoBehaviour {
                 SpriteRenderer.sprite = Matcher.Elapsed % 0.1f < 0.05f ? MatchedSprites[Block.Type] : Sprites[Block.Type];
                 break;
             case BlockState.Clearing:
-                timePercentage = Clearer.Elapsed / BlockClearer.Duration;
+                timePercentage = Clearer.Elapsed / BlockData.ClearDuration;
                 SpriteRenderer.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, timePercentage);
                 break;
         }

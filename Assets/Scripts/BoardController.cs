@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using System;
 
 public class BoardController : MonoBehaviour {
 	public BlockManager BlockManager;
 	public BoardRaiser BoardRaiser;
 	public Block SelectedBlock;
+	public event EventHandler SelectedBlockChanged;
 	public Camera Camera;
 	public AudioSource AudioSource;
 	public AudioClip SlideClip;
@@ -19,6 +21,10 @@ public class BoardController : MonoBehaviour {
 					Block block = hit.collider.gameObject.GetComponent<Block>();
 					if(block.State == BlockState.Idle && block.Row >= 0 && block.Row < BlockManager.Rows - 1) {
 						SelectedBlock = block;
+						
+						if(SelectedBlockChanged != null) {
+							SelectedBlockChanged(this, null);
+						}
 					}
 				}
 
@@ -33,6 +39,10 @@ public class BoardController : MonoBehaviour {
 
 			if(Input.GetMouseButtonUp(0)) {
 				SelectedBlock = null;
+
+				if(SelectedBlockChanged != null) {
+					SelectedBlockChanged(this, null);
+				}
 			}
 
 			if(SelectedBlock != null) {
@@ -52,6 +62,10 @@ public class BoardController : MonoBehaviour {
 						leftBlock = BlockManager.Blocks[SelectedBlock.Column - 1, SelectedBlock.Row];
 						rightBlock = SelectedBlock;
 						SelectedBlock = leftBlock;
+
+						if(SelectedBlockChanged != null) {
+							SelectedBlockChanged(this, null);
+						}
 				}
 
 				if(Camera.ScreenToWorldPoint(mousePosition).x > rightEdge &&
@@ -65,6 +79,10 @@ public class BoardController : MonoBehaviour {
 						leftBlock = SelectedBlock;
 						rightBlock = BlockManager.Blocks[SelectedBlock.Column + 1, SelectedBlock.Row];
 						SelectedBlock = rightBlock;
+
+						if(SelectedBlockChanged != null) {
+							SelectedBlockChanged(this, null);
+						}
 				}
 
 				if(leftBlock != null && rightBlock != null) {

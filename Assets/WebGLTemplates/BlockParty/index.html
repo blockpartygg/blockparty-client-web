@@ -18,6 +18,43 @@
     </script>
   </head>
   <body>
-    <div id="gameContainer"></div>
+    <div id="gameContainer" style="width: 1920px; height: 1080px"></div>
+    <script>
+      // Automatically scales the game canvas to preserve aspect ratio w/ letterboxing
+      (function() {
+        const gameContainer = document.querySelector("#gameContainer");
+        const initialGameContainerDimensions = {
+          width: parseInt(gameContainer.style.width, 10),
+          height: parseInt(gameContainer.style.height, 10)
+        };
+        gameContainer.style.width = "100%";
+        gameContainer.style.height = "100%";
+
+        const setDimensions = () => {
+          gameContainer.style.position = "absolute";
+          const canvas = document.getElementsByTagName("canvas")[0];
+          
+          const computedGameContainerWidth = parseInt(window.getComputedStyle(gameContainer).width, 10);
+          const computedGameContainerHeight = parseInt(window.getComputedStyle(gameContainer).height, 10);
+          const scale = Math.min(computedGameContainerWidth / initialGameContainerDimensions.width, computedGameContainerHeight / initialGameContainerDimensions.height);
+          
+          const scaledWidth = Math.round(initialGameContainerDimensions.width * scale * 100) / 100;
+          const scaledHeight = Math.round(initialGameContainerDimensions.height * scale * 100) / 100;
+
+          if(canvas) {
+            canvas.style.width = scaledWidth + "px";
+            canvas.style.height = scaledHeight + "px";
+          }
+        }
+        window.setDimensions = setDimensions;
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(setDimensions, 200);
+        });
+        setDimensions();
+      })();
+    </script>
   </body>
 </html>

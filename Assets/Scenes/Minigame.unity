@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BoardRaiser: {fileID: 2130821373}
-  BoardData: {fileID: 0}
+  BoardData: {fileID: 11400000, guid: 75f360d62f8320345b4733428d0d075e, type: 2}
 --- !u!212 &408788601
 SpriteRenderer:
   m_ObjectHideFlags: 0

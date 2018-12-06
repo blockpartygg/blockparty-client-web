@@ -30,7 +30,8 @@ public class GameManager : Singleton<GameManager> {
     public enum GameMode {
         None,
         TimeAttack,
-        Survival
+        Survival,
+        Sprint
     }
     public GameMode Mode;
     public event EventHandler GameUpdated;

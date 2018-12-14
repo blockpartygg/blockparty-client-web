@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Block Party</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="%UNITY_WEBGL_LOADER_URL%"></script>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "%UNITY_WEBGL_BUILD_URL%");
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-6023984980488094",
+        enable_page_level_ads: true
+      });
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131009482-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-131009482-1');
+    </script>
+  </head>
+  <body>
+    <div id="gameContainer" style="width: 1920px; height: 1080px"></div>
+    <script>
+      // Automatically scales the game canvas to preserve aspect ratio w/ letterboxing
+      (function() {
+        const gameContainer = document.querySelector("#gameContainer");
+        const initialGameContainerDimensions = {
+          width: parseInt(gameContainer.style.width, 10),
+          height: parseInt(gameContainer.style.height, 10)
+        };
+        gameContainer.style.width = "100%";
+        gameContainer.style.height = "100%";
+
+        const setDimensions = () => {
+          gameContainer.style.position = "absolute";
+          const canvas = document.getElementsByTagName("canvas")[0];
+          
+          const computedGameContainerWidth = parseInt(window.getComputedStyle(gameContainer).width, 10);
+          const computedGameContainerHeight = parseInt(window.getComputedStyle(gameContainer).height, 10);
+          const scale = Math.min(computedGameContainerWidth / initialGameContainerDimensions.width, computedGameContainerHeight / initialGameContainerDimensions.height);
+          
+          const scaledWidth = Math.round(initialGameContainerDimensions.width * scale * 100) / 100;
+          const scaledHeight = Math.round(initialGameContainerDimensions.height * scale * 100) / 100;
+
+          if(canvas) {
+            canvas.style.width = scaledWidth + "px";
+            canvas.style.height = scaledHeight + "px";
+          }
+        }
+        window.setDimensions = setDimensions;
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(setDimensions, 200);
+        });
+        setDimensions();
+      })();
+    </script>
+  </body>
+</html>

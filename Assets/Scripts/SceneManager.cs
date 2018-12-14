@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.Analytics;
 using System;
 using System.Collections;
 
-public class SceneManager : Singleton<SceneManager> {
-    bool isSyncingToClockState;
-    bool isLoadingScene;
+public class SceneManager : MonoBehaviour {
+    public Game Game;
+    public bool IsSyncingToClockState;
     public string TitleSceneName = "Title";
     public string PregameSceneName = "Pregame";
     public string PreRoundSceneName = "PreRound";
@@ -12,50 +13,36 @@ public class SceneManager : Singleton<SceneManager> {
     public string ScoreboardSceneName = "Scoreboard";
     public string LeaderboardSceneName = "Leaderboard";
     public string PostgameSceneName = "Postgame";
-    public string LeaderboardsSceneName = "DailyLeaderboard";
+    public string PersistentLeaderboardsSceneName = "PersistentLeaderboards";
+    bool isLoadingScene;
 
-    void Start() {
-        Clock.Instance.TimeExpired += HandleTimeExpired;
-    }
-
-    void HandleTimeExpired(object sender, EventArgs args) {
-        if(isSyncingToClockState) {
+    public void HandleTimeExpired() {
+        if(IsSyncingToClockState) {
             SyncToClockState();
-        }
-    }
-
-    public void SetSyncToClockState(bool isSyncingToClockState) {
-        this.isSyncingToClockState = isSyncingToClockState;
-
-        if(isSyncingToClockState) {
-            SyncToClockState();
-        }
-        else {
-            LoadSceneAsync(TitleSceneName);
         }
     }
 
     void SyncToClockState() {
         string sceneToLoad = "";
-        switch(Clock.Instance.State) {
-            case GameManager.GameState.Pregame:
+        switch(Game.State) {
+            case GameState.Pregame:
                 sceneToLoad = PregameSceneName;
                 break;
-            case GameManager.GameState.PreRound:
+            case GameState.PreRound:
                 sceneToLoad = PreRoundSceneName;
                 break;
-            case GameManager.GameState.PreMinigame:
-            case GameManager.GameState.InMinigame:
-            case GameManager.GameState.PostMinigame:
+            case GameState.PreMinigame:
+            case GameState.InMinigame:
+            case GameState.PostMinigame:
                 sceneToLoad = MinigameSceneName;
                 break;
-            case GameManager.GameState.Scoreboard:
+            case GameState.Scoreboard:
                 sceneToLoad = ScoreboardSceneName;
                 break;
-            case GameManager.GameState.Leaderboard:
+            case GameState.Leaderboard:
                 sceneToLoad = LeaderboardSceneName;
                 break;
-            case GameManager.GameState.Postgame:
+            case GameState.Postgame:
                 sceneToLoad = PostgameSceneName;
                 break;
         }
@@ -68,6 +55,7 @@ public class SceneManager : Singleton<SceneManager> {
     public void LoadSceneAsync(string name) {
         if(!isLoadingScene) {
             isLoadingScene = true;
+            AnalyticsEvent.ScreenVisit(name);
             StartCoroutine(LoadScene(name));
         }
     }
@@ -80,5 +68,16 @@ public class SceneManager : Singleton<SceneManager> {
         }
 
         isLoadingScene = false;
-    }
+    } 
+
+    public void SetSyncToClockState(bool isSyncingToClockState) {
+        IsSyncingToClockState = isSyncingToClockState;
+
+        if(isSyncingToClockState) {
+            SyncToClockState();
+        }
+        else {
+            LoadSceneAsync(TitleSceneName);
+        }
+    }   
 }

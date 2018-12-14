@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 
 public class ChatInputSubmitHandler : MonoBehaviour {
+    public ChatManager ChatManager;
+    public PlayerManager PlayerManager;
     TMP_InputField chatInput;
 
     void Awake() {
@@ -15,7 +17,7 @@ public class ChatInputSubmitHandler : MonoBehaviour {
     }
 
     public void Submit() {
-        ChatManager.Instance.SendChatMessage(PlayerManager.Instance.Name, chatInput.text);
+        ChatManager.SendChatMessage(PlayerManager.Name, chatInput.text);
         chatInput.text = "";
     }
 }

@@ -2,9 +2,10 @@
 using TMPro;
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 
 public class ScoreboardRenderer : MonoBehaviour {
-	ScoreboardManager scoreboardManager;
+	public Scoreboard Scoreboard;
 	public GameObject FirstPlaceScore;
 	public GameObject RemainingScores;
 	public GameObject EmptyScoreboardMessage;
@@ -14,24 +15,15 @@ public class ScoreboardRenderer : MonoBehaviour {
 	public GameObject ScoreboardEntryPrefab;
 	public string ScoreStringFormat = "{0} <size=24>POINTS</size>";
 
-	void Awake() {
-		scoreboardManager = GetComponent<ScoreboardManager>();
-	}
-
-	void Start() {
-		scoreboardManager.ScoreboardUpdated += HandleScoreboardUpdated;
-		scoreboardManager.FetchScoreboardAsync();
-	}
-
-	void HandleScoreboardUpdated(object sender, EventArgs args) {
-		if(scoreboardManager.Scoreboard.Count > 0) {
+	public void HandleScoreboardUpdated() {
+		if(Scoreboard.Scores.Count > 0) {
 			// First clear out any existing scoreboard content
 			foreach(Transform child in ScoreboardContent.transform) {
 				GameObject.Destroy(child.gameObject);
 			}
 
 			// Create a new copy of the scoreboard to sort
-			List<SerializableScore> scores = new List<SerializableScore>(scoreboardManager.Scoreboard);
+			List<SerializableScore> scores = new List<SerializableScore>(Scoreboard.Scores);
 			
 			// Sort in descending order
 			scores.Sort((firstItem, secondItem) => -1 * firstItem.score.CompareTo(secondItem.score));
@@ -42,12 +34,12 @@ public class ScoreboardRenderer : MonoBehaviour {
 			scores.RemoveAt(0);
 
 			int rank = 2;
-
+			
 			foreach(SerializableScore score in scores) {
 				GameObject entryObject = Instantiate(ScoreboardEntryPrefab, Vector3.zero, Quaternion.identity);
 				entryObject.transform.Find("Player Rank").GetComponent<TMP_Text>().text = (rank++).ToString();
 				entryObject.transform.Find("Player Name").GetComponent<TMP_Text>().text = score.id;
-				entryObject.transform.Find("Player Score").GetComponent<TMP_Text>().text = score.score.ToString();
+				entryObject.transform.Find("Player Score").GetComponent<TMP_Text>().text = string.Format(ScoreStringFormat, 0);
 				entryObject.transform.SetParent(ScoreboardContent.transform);
 				entryObject.transform.localScale = Vector3.one;
 			}
@@ -57,9 +49,5 @@ public class ScoreboardRenderer : MonoBehaviour {
 			RemainingScores.SetActive(false);
 			EmptyScoreboardMessage.SetActive(true);
 		}
-	}
-
-	void OnDestroy() {
-		scoreboardManager.ScoreboardUpdated -= HandleScoreboardUpdated;
 	}
 }

@@ -8,17 +8,18 @@ public class ChatMessage {
     public string Message;
 }
 
-public class ChatManager : Singleton<ChatManager> {
+[CreateAssetMenu]
+public class ChatManager : ScriptableObject {
+    public SocketManager SocketManager;
     public List<ChatMessage> Messages;
     public event EventHandler MessageAdded;
     public bool IsVisible = false;
 
-    void Awake() {
+    void OnEnable() {
         Messages = new List<ChatMessage>();
-    }
-
-    void Start() {
-        SocketManager.Instance.Socket.On("chat", OnChatReceived);
+        if(SocketManager.IsConnected && SocketManager.Socket != null) {
+            SocketManager.Socket.On("chat", OnChatReceived);
+        }
     }
 
     void OnChatReceived(Socket socket, Packet packet, params object[] args) {
@@ -35,6 +36,11 @@ public class ChatManager : Singleton<ChatManager> {
     }
 
     public void SendChatMessage(string playerName, string message) {
-        SocketManager.Instance.Socket.Emit("chat", playerName, message);
+        if(SocketManager.Socket != null) {
+            SocketManager.Socket.Emit("chat", playerName, message);
+        }
+        else {
+            Debug.Log("SocketManager.Socket is null");
+        }
     }
 }

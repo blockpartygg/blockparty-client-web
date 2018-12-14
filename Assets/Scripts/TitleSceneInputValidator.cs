@@ -11,6 +11,7 @@ public class TitleSceneInputValidator : MonoBehaviour {
     }
 
     public void Validate() {
-        PlayButton.interactable = !string.IsNullOrEmpty(PlayerNameInputField.text);
+        PlayButton.interactable = !string.IsNullOrEmpty(PlayerNameInputField.text) &&
+            PlayerNameInputField.text.Length < 20;
     }
 }

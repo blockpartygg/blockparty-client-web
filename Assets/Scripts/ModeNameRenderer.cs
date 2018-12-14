@@ -2,7 +2,8 @@ using UnityEngine;
 using TMPro;
 
 public class ModeNameRenderer : MonoBehaviour {
-	TMP_Text modeNameText;
+	public Game Game;
+    TMP_Text modeNameText;
     public string TimeAttackName = "Time Attack";
     public string SurvivalName = "Survival";
 
@@ -13,11 +14,11 @@ public class ModeNameRenderer : MonoBehaviour {
 	void Start() {
         string modeName = "";
         
-        switch(Clock.Instance.Mode) {
-            case GameManager.GameMode.TimeAttack:
+        switch(Game.Mode) {
+            case GameMode.TimeAttack:
                 modeName = TimeAttackName;
                 break;
-            case GameManager.GameMode.Survival:
+            case GameMode.Survival:
                 modeName = SurvivalName;
                 break;
         }

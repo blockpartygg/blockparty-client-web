@@ -247,6 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28a449564360876499978155c58a9113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerManager: {fileID: 11400000, guid: d1e896826406f6f45ab94a8a27843952, type: 2}
   PlayerName: {fileID: 114414922387131942}
   HighlightImage: {fileID: 114331780863317288}
   HighlightColor: {r: 0.9647059, g: 0.3568628, b: 0.7019608, a: 0.3607843}

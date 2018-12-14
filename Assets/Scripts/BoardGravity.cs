@@ -1,12 +1,13 @@
 using UnityEngine;
 
 public class BoardGravity : MonoBehaviour {
+    public Game Game;
     public BlockManager BlockManager;
     public MatchDetector MatchDetector;
     public AudioSource AudioSource;
     public AudioClip LandClip;
 
-    void Update() {
+    void FixedUpdate() {
         // Traverse columns right-to-left so that when you encounter the leftmost garbage block, you can walk back right to see if the entire group can fall
         for(int column = BlockManager.Columns - 1; column >= 0; column--) {
             bool emptyBlockDetected = false;
@@ -101,8 +102,10 @@ public class BoardGravity : MonoBehaviour {
                     }
                     else {
                         BlockManager.Blocks[column, row].State = BlockState.Idle;
+                        BlockManager.Blocks[column, row].Faller.JustLanded = true;
                         MatchDetector.RequestMatchDetection(BlockManager.Blocks[column, row]);
                         AudioSource.clip = LandClip;
+                        AudioSource.pitch = 1f;
                         AudioSource.Play();
                     }
 
@@ -112,13 +115,14 @@ public class BoardGravity : MonoBehaviour {
         }
 
         // In Time Attack mode, spawn in new blocks from the top when there's space to add them
-        if(Clock.Instance.Mode == GameManager.GameMode.TimeAttack) {
+        if(Game.Mode == GameMode.TimeAttack) {
             for(int column = 0; column < BlockManager.Columns; column++) {
                 if(BlockManager.Blocks[column, BlockManager.Rows - 1].State == BlockState.Empty) {
                     BlockManager.Blocks[column, BlockManager.Rows - 1].Type = BlockManager.GetRandomBlockType(column, BlockManager.Rows - 1);
 
                     if(BlockManager.Blocks[column, BlockManager.Rows - 2].State == BlockState.Idle) {
                         BlockManager.Blocks[column, BlockManager.Rows - 1].State = BlockState.Idle;
+                        BlockManager.Blocks[column, BlockManager.Rows - 1].Chainer.ChainEligible = false;
                     }
 
                     if(BlockManager.Blocks[column, BlockManager.Rows - 2].State == BlockState.Empty || BlockManager.Blocks[column, BlockManager.Rows - 2].State == BlockState.Falling) {

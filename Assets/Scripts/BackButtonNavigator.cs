@@ -1,7 +1,9 @@
 using UnityEngine;
 
 public class BackButtonNavigator : MonoBehaviour {
+    public SceneManager SceneManager;
+
     public void Navigate() {
-        SceneManager.Instance.LoadSceneAsync(SceneManager.Instance.TitleSceneName);
+        SceneManager.LoadSceneAsync(SceneManager.TitleSceneName);
     }
 }

@@ -1,13 +1,20 @@
 ﻿using UnityEngine;
 
 public class BoardRaiser : MonoBehaviour {
-	public BoardData BoardData;
-	public MinigameManager MinigameManager;
+	public Game Game;
+	public GameConfiguration GameConfiguration;
 	public BlockManager BlockManager;
+	public FloatReference RaiseDuration;
+	public FloatReference RaiseLossCountdownDuration;
+	public FloatReference MinimumRaiseRate;
+	public FloatReference MaximumRaiseRate;
+	public FloatReference ManualRaiseRate;
 	public Score Score;
 	public float Elapsed;
 	public float LossElapsed;
 	public MatchDetector MatchDetector;
+	public BoardCursorController Controller;
+	public GameEvent OnPlayerEliminated;
 
 	bool isForcingRaise;
 	[SerializeField] float raiseRate = 1f;
@@ -17,14 +24,14 @@ public class BoardRaiser : MonoBehaviour {
 		isForcingRaise = true;
 	}
 
-	void Update() {
-		if(Clock.Instance.State == GameManager.GameState.InMinigame && Clock.Instance.Mode == GameManager.GameMode.Survival) {
+	void FixedUpdate() {
+		if(Game.State == GameState.InMinigame && Game.Mode == GameMode.Survival) {
 			if(isForcingRaise) {
-				raiseRate = BoardData.ManualRaiseRate;
+				raiseRate = ManualRaiseRate.Value;
 			}
 			else {
 				// Scale raise rate based on remaining time
-				raiseRate = Mathf.Lerp(BoardData.MinimumRaiseRate, BoardData.MaximumRaiseRate, ((ConfigManager.Instance.InMinigameDuration / 1000) - Clock.Instance.SecondsRemaining) / (ConfigManager.Instance.InMinigameDuration / 1000));	
+				raiseRate = Mathf.Lerp(MinimumRaiseRate.Value, MaximumRaiseRate.Value, ((GameConfiguration.InMinigameDuration / 1000) - Game.SecondsRemaining) / (GameConfiguration.InMinigameDuration / 1000));	
 			}
 			
 			for(int column = 0; column < BlockManager.Columns; column++) {
@@ -46,15 +53,14 @@ public class BoardRaiser : MonoBehaviour {
 			if(isLossIncoming) {
 				LossElapsed += raiseRate * Time.deltaTime;
 
-				if(LossElapsed >= BoardData.RaiseLossCountdownDuration) {
-					MinigameManager.EliminatePlayer();
-					MinigameManager.EndGame();
+				if(LossElapsed >= RaiseLossCountdownDuration.Value) {
+					OnPlayerEliminated.Raise();
 				}
 			}
 			else {
 				Elapsed += raiseRate * Time.deltaTime;
 
-				if(Elapsed >= BoardData.RaiseDuration) {
+				if(Elapsed >= RaiseDuration.Value) {
 					Elapsed = 0f;
 
 					for(int column = 0; column < BlockManager.Columns; column++) {
@@ -78,6 +84,10 @@ public class BoardRaiser : MonoBehaviour {
 						Score.ScoreRaise();
 
 						isForcingRaise = false;
+					}
+
+					if(Controller.Row < BlockManager.Rows - 2) {
+						Controller.Row++;
 					}
 				}
 

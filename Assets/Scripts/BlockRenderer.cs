@@ -1,11 +1,11 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 
 public class BlockRenderer: MonoBehaviour {
+    public Game Game;
     public Block Block;
-    public BlockData BlockData;
-    public BoardData BoardData;
     public BlockGarbage Garbage;
     public BlockSlider Slider;
     public BlockFaller Faller;
@@ -20,6 +20,11 @@ public class BlockRenderer: MonoBehaviour {
     public List<Sprite> HoppingSprites2;
     public List<Sprite> HoppingSprites3;
     public List<Sprite> HoppingSprites4;
+    public FloatReference RaiseDuration;
+    public FloatReference SlideDuration;
+    public FloatReference FallDuration;
+    public FloatReference ClearDuration;
+    
     List<List<Sprite>> hoppingSprites;
     BlockManager blockManager;
     ParticleManager particleManager;
@@ -28,9 +33,17 @@ public class BlockRenderer: MonoBehaviour {
     Vector3 blockTranslation;
 
     void Awake() {
-        blockManager = GameObject.Find("Minigame").GetComponent<BlockManager>();
-        particleManager = GameObject.Find("Minigame").GetComponent<ParticleManager>();
-        boardRaiser = GameObject.Find("Minigame").GetComponent<BoardRaiser>();
+        GameObject board = GameObject.Find("Board");
+        if(board != null) {
+            blockManager = board.GetComponent<BlockManager>();
+            boardRaiser = board.GetComponent<BoardRaiser>();
+        }
+
+        GameObject particles = GameObject.Find("Particles");
+        if(particles != null) {
+            particleManager = particles.GetComponent<ParticleManager>();
+        }        
+
         hoppingSprites = new List<List<Sprite>>();
         hoppingSprites.Add(HoppingSprites0);
         hoppingSprites.Add(HoppingSprites1);
@@ -60,8 +73,15 @@ public class BlockRenderer: MonoBehaviour {
     }
 
     void UpdatePosition() {
-        Vector3 raiseTranslation = new Vector3(0, boardRaiser.Elapsed / BoardData.RaiseDuration);
-        transform.position = transform.parent.position + blockTranslation + raiseTranslation + garbageTranslation;
+        Vector3 raiseTranslation = Vector3.zero;
+        if(boardRaiser != null) {
+            raiseTranslation = new Vector3(0, boardRaiser.Elapsed / RaiseDuration.Value);
+        }
+        Vector3 parentPosition = Vector3.zero;
+        if(transform.parent != null) {
+            parentPosition = transform.parent.position;
+        }
+        transform.position = parentPosition + blockTranslation + raiseTranslation + garbageTranslation;
     }
 
     void UpdateSpriteState() {
@@ -77,7 +97,9 @@ public class BlockRenderer: MonoBehaviour {
                 }
                 break;
             case BlockState.Clearing:
-                particleManager.Particles[Block.Column, Block.Row].GetComponent<ParticleSystem>().Play();
+                if(particleManager != null) {
+                    particleManager.Particles[Block.Column, Block.Row].GetComponent<ParticleSystem>().Play();
+                }
                 break;
             case BlockState.WaitingToEmpty:
             case BlockState.Empty:
@@ -109,40 +131,56 @@ public class BlockRenderer: MonoBehaviour {
     }
 
     void FixedUpdate() {
-        Vector3 raiseTranslation = new Vector3(0, boardRaiser.Elapsed / BoardData.RaiseDuration);
+        Vector3 raiseTranslation = Vector3.zero;
+        if(boardRaiser != null) {
+            raiseTranslation = new Vector3(0, boardRaiser.Elapsed / RaiseDuration.Value);
+        }
+        Vector3 parentPosition = Vector3.zero;
+        if(transform.parent != null) {
+            parentPosition = transform.parent.position;
+        }
         float timePercentage;
 
         switch(Block.State) {
             case BlockState.Idle:
-                transform.position = transform.parent.position + blockTranslation + raiseTranslation + garbageTranslation;
-                if(Clock.Instance.Mode == GameManager.GameMode.Survival) {
-                    if(blockManager.Blocks[Block.Column, BlockManager.Rows - 2].State != BlockState.Empty || 
-                        blockManager.Blocks[Block.Column, BlockManager.Rows - 3].State != BlockState.Empty) {
-                        SpriteRenderer.sprite = hoppingSprites[Block.Type][(int)(Time.time * 10) % 4];
-                    }
-                    else {
-                        SpriteRenderer.sprite = Sprites[Block.Type];
+                transform.position = parentPosition + blockTranslation + raiseTranslation + garbageTranslation;
+                if(Game.Mode == GameMode.Survival) {
+                    if(blockManager != null) {
+                        if(blockManager.Blocks[Block.Column, BlockManager.Rows - 2].State != BlockState.Empty || 
+                            blockManager.Blocks[Block.Column, BlockManager.Rows - 3].State != BlockState.Empty) {
+                            SpriteRenderer.sprite = hoppingSprites[Block.Type][(int)(Time.time * 10) % 4];
+                        }
+                        else {
+                            SpriteRenderer.sprite = Sprites[Block.Type];
+                        }
                     }
                 }
                 break;
             case BlockState.Sliding:
                 float direction = Slider.Direction == SlideDirection.Left ? -1 : 1;
-                timePercentage = Slider.Elapsed / BlockData.SlideDuration;
+                timePercentage = Slider.Elapsed / SlideDuration.Value;
                 Vector3 slideTranslation = new Vector3(direction * timePercentage, 0);
-                transform.position = transform.parent.position + blockTranslation + raiseTranslation + slideTranslation;
+                transform.position = parentPosition + blockTranslation + raiseTranslation + slideTranslation;
                 break;
             case BlockState.Falling:
-                timePercentage = Faller.Elapsed / BlockData.FallDuration;
+                timePercentage = Faller.Elapsed / FallDuration.Value;
                 Vector3 fallTranslation = new Vector3(0, -1 * timePercentage);
-                transform.position = transform.parent.position + blockTranslation + garbageTranslation + raiseTranslation + fallTranslation;
+                transform.position = parentPosition + blockTranslation + garbageTranslation + raiseTranslation + fallTranslation;
                 break;
             case BlockState.Matched:
                 SpriteRenderer.sprite = Matcher.Elapsed % 0.1f < 0.05f ? MatchedSprites[Block.Type] : Sprites[Block.Type];
                 break;
             case BlockState.Clearing:
-                timePercentage = Clearer.Elapsed / BlockData.ClearDuration;
+                timePercentage = Clearer.Elapsed / ClearDuration.Value;
                 SpriteRenderer.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, timePercentage);
                 break;
+        }
+
+        if(Block.Faller.JustLanded) {
+            transform.localScale = new Vector3(1.2f, 1.2f, 1f);
+            transform.DOScale(1f, 0.5f);
+            
+            Block.Faller.JustLanded = false;
         }
     }
 }

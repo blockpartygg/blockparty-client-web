@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 114525360889562956}
   - component: {fileID: 114150812811014354}
   - component: {fileID: 114830998304983972}
+  - component: {fileID: 114045794288837188}
   m_Layer: 0
   m_Name: Block
   m_TagString: Untagged
@@ -203,6 +204,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &114045794288837188
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1800864217481224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4c00315623dd9e459f9ba197ec5153b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114079462409912636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -214,9 +226,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93831f4b81143f54dbc32280b2e956af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Game: {fileID: 11400000, guid: e2da844048e01634facfac708aa0549c, type: 2}
   Block: {fileID: 114876920153166952}
-  BlockData: {fileID: 11400000, guid: c9a6dbaab4015e04cb01032344733527, type: 2}
-  BoardData: {fileID: 11400000, guid: 75f360d62f8320345b4733428d0d075e, type: 2}
   Garbage: {fileID: 114812191303735608}
   Slider: {fileID: 114267310277191798}
   Faller: {fileID: 114646089672917334}
@@ -269,6 +280,22 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e73e7d35b3091b74dabc95cfcfbe94d1, type: 3}
   - {fileID: 21300000, guid: 139aca6844015c740ad9d7cd69dde4cf, type: 3}
   - {fileID: 21300000, guid: 7f83a0c817faf844596e6fdb0b5b9964, type: 3}
+  RaiseDuration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 4073800d0af4ea5429ec70e6d41fae79, type: 2}
+  SlideDuration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 29e805537e34f1245b450acabe159170, type: 2}
+  FallDuration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: ff1deebb27b620043a6365633878078e, type: 2}
+  ClearDuration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 25de4765365833d459564153547c0f77, type: 2}
 --- !u!114 &114150812811014354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -309,7 +336,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Block: {fileID: 114876920153166952}
-  BlockData: {fileID: 11400000, guid: c9a6dbaab4015e04cb01032344733527, type: 2}
+  SlideDuration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 29e805537e34f1245b450acabe159170, type: 2}
   Direction: 0
   TargetState: 0
   TargetType: 0
@@ -339,7 +369,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Block: {fileID: 114876920153166952}
-  BlockData: {fileID: 11400000, guid: c9a6dbaab4015e04cb01032344733527, type: 2}
+  FallDelayDuration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 7759bd00da95e7a4789d16ea395de34e, type: 2}
+  FallDuration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: ff1deebb27b620043a6365633878078e, type: 2}
   Elapsed: 0
   Target: {fileID: 0}
   JustFell: 0
@@ -370,7 +407,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e62e8056c085bfa4eaae601448ada629, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlockData: {fileID: 11400000, guid: c9a6dbaab4015e04cb01032344733527, type: 2}
+  EndAnimationGravity:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1bba48ac072c3be4bbd39577d3d193b7, type: 2}
 --- !u!114 &114870904219159144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -383,7 +423,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Block: {fileID: 114876920153166952}
-  BlockData: {fileID: 11400000, guid: c9a6dbaab4015e04cb01032344733527, type: 2}
+  ClearDelayInterval:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 54a8fcbfd99530d4e80bc616029cde42, type: 2}
+  EmptyDelayInterval:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 8f072c950011db749a40b7bebbf7b733, type: 2}
+  MatchDuration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: e9819451cc92073469f977fcd3e80a09, type: 2}
   Clearer: {fileID: 114968000366051064}
   Emptier: {fileID: 114525360889562956}
   Elapsed: 0
@@ -410,6 +461,7 @@ MonoBehaviour:
   Emptier: {fileID: 114525360889562956}
   Chainer: {fileID: 114150812811014354}
   Killer: {fileID: 114830998304983972}
+  AnimateIn: {fileID: 114045794288837188}
 --- !u!114 &114968000366051064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -422,12 +474,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Block: {fileID: 114876920153166952}
-  BlockData: {fileID: 11400000, guid: c9a6dbaab4015e04cb01032344733527, type: 2}
+  ClearDuration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 25de4765365833d459564153547c0f77, type: 2}
   Emptier: {fileID: 114525360889562956}
-  Score: {fileID: 0}
+  Score: {fileID: 11400000, guid: c1c54179ca835e44d983c0a16da5228a, type: 2}
   AudioSource: {fileID: 82834980168975092}
   DelayDuration: 0
   Elapsed: 0
+  Pitch: 0
 --- !u!212 &212367722301015608
 SpriteRenderer:
   m_ObjectHideFlags: 1

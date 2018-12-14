@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class BlockFaller : MonoBehaviour {
     public Block Block;
-    public BlockData BlockData;
+    public FloatReference FallDelayDuration;
+    public FloatReference FallDuration;
     float delayElapsed;
     public float Elapsed;
     public Block Target;
     public bool JustFell;
+    public bool JustLanded;
 
     public void Fall() {
         Block.State = BlockState.WaitingToFall;
@@ -22,11 +24,11 @@ public class BlockFaller : MonoBehaviour {
         Elapsed = 0f;
     }
 
-    void Update() {
+    void FixedUpdate() {
         if(Block.State == BlockState.WaitingToFall) {
             delayElapsed += Time.deltaTime;
 
-            if(delayElapsed >= BlockData.FallDelayDuration) {
+            if(delayElapsed >= FallDelayDuration.Value) {
                 FinishWaitingToFall();
             }
         }
@@ -34,7 +36,7 @@ public class BlockFaller : MonoBehaviour {
         if(Block.State == BlockState.Falling) {
             Elapsed += Time.deltaTime;
 
-            if(Elapsed >= BlockData.FallDuration) {
+            if(Elapsed >= FallDuration.Value) {
                 if(Target != null) {
                     Target.Garbage.Width = Block.Garbage.Width;
                     Target.Garbage.Height = Block.Garbage.Height;
@@ -51,6 +53,7 @@ public class BlockFaller : MonoBehaviour {
                 Block.Garbage.IsNeighbor = false;
                 Block.State = BlockState.Empty;
                 Block.Type = -1;
+                Block.Chainer.ChainEligible = false;
             }
         }
     }

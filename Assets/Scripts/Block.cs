@@ -51,6 +51,7 @@ public class Block : MonoBehaviour {
     public BlockEmptier Emptier;
     public BlockChainer Chainer;
     public BlockKiller Killer;
+    public BlockAnimateIn AnimateIn;
     public event EventHandler StateChanged;
     public event EventHandler TypeChanged;
 }

@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 
 public class BlockKiller : MonoBehaviour {
-	public BlockData BlockData;
 	bool dying;
 	float delayElapsed;
 	float delayDuration;
-	float velocity = 0;
 
 	public void Kill() {
 		dying = true;
@@ -17,8 +16,9 @@ public class BlockKiller : MonoBehaviour {
 			delayElapsed += Time.deltaTime;
 
 			if(delayElapsed >= delayDuration) {
-				velocity += BlockData.EndAnimationGravity;
-				transform.Translate(new Vector3(0, velocity));
+				transform.localScale = Vector3.one;
+				transform.DOScale(0, 1f);
+				dying = false;
 			}
 		}
 	}

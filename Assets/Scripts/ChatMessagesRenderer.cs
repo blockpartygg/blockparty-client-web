@@ -3,6 +3,7 @@ using System;
 using TMPro;
 
 public class ChatMessagesRenderer : MonoBehaviour {
+    public ChatManager ChatManager;
     public GameObject ChatMessagePrefab;
     public string MessageStringFormat = "<b><color=#17A589>{0}</color></b> {1}";
     GameObject content;
@@ -12,17 +13,17 @@ public class ChatMessagesRenderer : MonoBehaviour {
 
         PopulateMessages();
 
-        ChatManager.Instance.MessageAdded += HandleMessageAdded;
+        ChatManager.MessageAdded += HandleMessageAdded;
     }
 
     void PopulateMessages() {
-        foreach(ChatMessage message in ChatManager.Instance.Messages) {
+        foreach(ChatMessage message in ChatManager.Messages) {
             AddMessage(message.PlayerName, message.Message);
         }
     }
 
     void HandleMessageAdded(object sender, EventArgs args) {
-        ChatMessage newMessage = ChatManager.Instance.Messages[ChatManager.Instance.Messages.Count - 1];
+        ChatMessage newMessage = ChatManager.Messages[ChatManager.Messages.Count - 1];
         AddMessage(newMessage.PlayerName, newMessage.Message);
     }
 
@@ -35,6 +36,6 @@ public class ChatMessagesRenderer : MonoBehaviour {
     }
 
     void OnDestroy() {
-        ChatManager.Instance.MessageAdded -= HandleMessageAdded;
+        ChatManager.MessageAdded -= HandleMessageAdded;
     }
 }

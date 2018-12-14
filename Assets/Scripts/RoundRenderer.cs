@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 
 public class RoundRenderer : MonoBehaviour {
+	public Game Game;
 	TMP_Text roundText;
     public string StringFormat = "Round {0}";
 
@@ -10,6 +11,6 @@ public class RoundRenderer : MonoBehaviour {
 	}
 
 	void Update() {
-		roundText.text = string.Format(StringFormat, Clock.Instance.Round);
+		roundText.text = string.Format(StringFormat, Game.Round);
 	}
 }

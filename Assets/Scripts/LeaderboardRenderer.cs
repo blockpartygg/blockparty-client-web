@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 public class LeaderboardRenderer : MonoBehaviour {
-	LeaderboardManager leaderboardManager;
+	public Leaderboard Leaderboard;
 	public GameObject FirstPlaceScore;
 	public GameObject RemainingScores;
 	public GameObject EmptyLeaderboardMessage;
@@ -15,24 +15,15 @@ public class LeaderboardRenderer : MonoBehaviour {
 	public string ScoreStringFormat = "{0} <size=24>STARS</size>";
     public string FirstPlaceScoreStringFormat = "{0} <size=24>STARS</size>";
 
-	void Awake() {
-		leaderboardManager = GetComponent<LeaderboardManager>();
-	}
-
-	void Start() {
-		leaderboardManager.LeaderboardUpdated += HandleLeaderboardUpdated;
-		leaderboardManager.FetchLeaderboardAsync();
-	}
-
-	void HandleLeaderboardUpdated(object sender, EventArgs args) {
-		if(leaderboardManager.Leaderboard.Count > 0) {
+	public void HandleLeaderboardUpdated() {
+		if(Leaderboard.Scores.Count > 0) {
 			// First clear out any existing leaderboard content
 			foreach(Transform child in LeaderboardContent.transform) {
 				GameObject.Destroy(child.gameObject);
 			}
 
 			// Create a new copy of the leaderboard to sort (NOTE: this shouldn't be needed any longer because the server sorts the leaderboard)
-			List<SerializableLeaderboardItem> items = new List<SerializableLeaderboardItem>(leaderboardManager.Leaderboard);
+			List<SerializableLeaderboardItem> items = new List<SerializableLeaderboardItem>(Leaderboard.Scores);
 			
 			// Sort in descending order
 			items.Sort((firstItem, secondItem) => -1 * firstItem.score.CompareTo(secondItem.score));
@@ -58,9 +49,5 @@ public class LeaderboardRenderer : MonoBehaviour {
 			RemainingScores.SetActive(false);
 			EmptyLeaderboardMessage.SetActive(true);
 		}
-	}
-
-	void Destroy() {
-		leaderboardManager.LeaderboardUpdated -= HandleLeaderboardUpdated;
 	}
 }

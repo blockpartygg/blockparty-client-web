@@ -1,7 +1,9 @@
 using UnityEngine;
 
 public class LeaderboardsButtonNavigator : MonoBehaviour {
+    public SceneManager SceneManager;
+
     public void Navigate() {
-        SceneManager.Instance.LoadSceneAsync(SceneManager.Instance.LeaderboardsSceneName);
+        SceneManager.LoadSceneAsync(SceneManager.PersistentLeaderboardsSceneName);
     }
 }

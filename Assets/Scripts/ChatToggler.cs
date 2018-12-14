@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 
 public class ChatToggler : MonoBehaviour {
+    public ChatManager ChatManager;
     Toggle toggle;
     public GameObject Panel;
     
@@ -11,9 +12,9 @@ public class ChatToggler : MonoBehaviour {
     }
 
     void Start() {
-        toggle.isOn = ChatManager.Instance.IsVisible;
+        toggle.isOn = ChatManager.IsVisible;
         
-        if(ChatManager.Instance.IsVisible) {
+        if(ChatManager.IsVisible) {
             Panel.transform.localPosition = Vector3.zero;
         }
         else {
@@ -22,13 +23,13 @@ public class ChatToggler : MonoBehaviour {
     }
 
     public void Toggle() {
-        ChatManager.Instance.IsVisible = toggle.isOn;
+        ChatManager.IsVisible = toggle.isOn;
 
         if(toggle.isOn) {
-            Panel.transform.DOLocalMoveY(0, 1f);
+            Panel.transform.DOLocalMoveY(0, 0.5f);
         }
         else {
-            Panel.transform.DOLocalMoveY(-350f, 1f);
+            Panel.transform.DOLocalMoveY(-350f, 0.5f);
         }
     }
 }

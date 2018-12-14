@@ -10,7 +10,7 @@ public class BlockEmptier : MonoBehaviour {
         delayElapsed = 0f;
     }
 
-    void Update() {
+    void FixedUpdate() {
         if(Block.State == BlockState.WaitingToEmpty) {
             delayElapsed += Time.deltaTime;
 

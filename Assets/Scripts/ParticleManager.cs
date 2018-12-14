@@ -5,7 +5,7 @@ public class ParticleManager : MonoBehaviour {
     public GameObject ParticlePrefab;
     public GameObject ParticleParent;
     public BoardRaiser BoardRaiser;
-    public BoardData BoardData;
+    public FloatReference RaiseDuration;
     public const int Columns = 6, Rows = 12;
 
 	Vector3 initialPosition;
@@ -26,8 +26,8 @@ public class ParticleManager : MonoBehaviour {
         initialPosition = transform.position;
     }
 
-    void Update() {
-        Vector3 raiseTranslation = initialPosition + new Vector3(0, BoardRaiser.Elapsed / BoardData.RaiseDuration);
+    void FixedUpdate() {
+        Vector3 raiseTranslation = initialPosition + new Vector3(0, BoardRaiser.Elapsed / RaiseDuration.Value);
 
 		transform.position = raiseTranslation;
     }

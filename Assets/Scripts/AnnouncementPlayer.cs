@@ -12,6 +12,7 @@ public enum AnnouncementType {
 }
 
 public class AnnouncementPlayer : MonoBehaviour {
+	public Game Game;
 	public Sprite PregameStartImage;
 	public Sprite InGameStartImage;
 	public Sprite PostgameStartImage;
@@ -19,6 +20,38 @@ public class AnnouncementPlayer : MonoBehaviour {
 
 	void Awake() {
 		spriteRenderer = GetComponent<SpriteRenderer>();
+	}
+
+	void Start() {
+		SetupAnnouncement();
+	}
+
+	public void HandleTimeExpired() {
+		if(Game.State != GameState.Scoreboard) {
+			SetupAnnouncement();
+		}
+	}
+
+	void SetupAnnouncement() {
+		AnnouncementType announcementType = AnnouncementType.None;
+		
+		switch(Game.State) {
+			case GameState.PreMinigame:
+				announcementType = AnnouncementType.PregameStart;
+				break;
+			case GameState.InMinigame:
+				announcementType = AnnouncementType.InGameStart;
+				break;
+			case GameState.PostMinigame:
+				announcementType = AnnouncementType.PostgameStart;
+				break;
+			default:
+				return;
+		}
+
+		if(announcementType != AnnouncementType.None) {
+			Play(announcementType);
+		}
 	}
 
 	public void Play(AnnouncementType type) {

@@ -6,12 +6,13 @@ public class BlockManager : MonoBehaviour {
 	public Block[] NewRowBlocks;
 	public Block BlockPrefab;
 	public GameObject BlockParent;
-	public MinigameManager MinigameManager;
 	public const int Columns = 6, Rows = 13; // 12 visible and 1 for new blocks
 	const int survivalModeStartingRows = 6;
+	public Game Game;
 
 	void Awake() {
 		Blocks = new Block[Columns, Rows];
+		
 		for(int row = 0; row < Rows; row++) {
 			for(int column = 0; column < Columns; column++) {
 				Blocks[column, row] = Instantiate(BlockPrefab, Vector3.zero, Quaternion.identity);
@@ -24,7 +25,7 @@ public class BlockManager : MonoBehaviour {
 			}
 		}
 
-		if(Clock.Instance.Mode == GameManager.GameMode.Survival) {
+		if(Game.Mode == GameMode.Survival) {
 			NewRowBlocks = new Block[Columns];
 			for(int column = 0; column < Columns; column++) {
 				NewRowBlocks[column] = Instantiate(BlockPrefab, Vector3.zero, Quaternion.identity);
@@ -34,12 +35,10 @@ public class BlockManager : MonoBehaviour {
 				NewRowBlocks[column].Row = -1;
 			}
 		}
-
-		// GameManager.Instance.StateChanged += HandleStateChanged;
 	}
 
 	void Start() {
-		if(Clock.Instance.Mode == GameManager.GameMode.TimeAttack) {
+		if(Game.Mode == GameMode.TimeAttack) {
 			for(int row = 0; row < Rows; row++) {
 				for(int column = 0; column < Columns; column++) {
 					Blocks[column, row].State = BlockState.Idle;
@@ -47,7 +46,7 @@ public class BlockManager : MonoBehaviour {
 				}
 			}
 		}
-		else if(Clock.Instance.Mode == GameManager.GameMode.Survival) {
+		else if(Game.Mode == GameMode.Survival) {
 			for(int row = 0; row < survivalModeStartingRows; row++) {
 				for(int column = 0; column < Columns; column++) {
 					Blocks[column, row].State = BlockState.Idle;
@@ -72,12 +71,6 @@ public class BlockManager : MonoBehaviour {
 			NewRowBlocks[column].State = BlockState.Idle;
 			NewRowBlocks[column].Type = GetRandomBlockType(column, 0);
 		}
-	}
-
-	void HandleStateChanged(object sender, EventArgs args) {
-		// if(GameManager.Instance.State == GameManager.GameState.MinigameEnd) {
-		// 	KillBlocks();
-		// }
 	}
 
 	public void KillBlocks() {

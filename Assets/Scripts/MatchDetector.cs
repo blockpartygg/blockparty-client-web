@@ -1,16 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class MatchDetection {
-    public Block Block;
-
-    public MatchDetection(Block block) {
-        Block = block;
-    }
-}
-
 public class MatchDetector : MonoBehaviour {
-    List<MatchDetection> matchDetections;
+    List<Block> matchDetectionRequests;
     public BlockManager BlockManager;
     public Score Score;
     public PanelManager PanelManager;
@@ -20,20 +12,20 @@ public class MatchDetector : MonoBehaviour {
     const int minimumMatchLength = 3;
 
     void Awake() {
-        matchDetections = new List<MatchDetection>();
+        matchDetectionRequests = new List<Block>();
     }
 
     public void RequestMatchDetection(Block block) {
-        matchDetections.Add(new MatchDetection(block));
+        matchDetectionRequests.Add(block);
     }
 
-    void Update() {
-        while(matchDetections.Count > 0) {
-            MatchDetection detection = matchDetections[0];
-            matchDetections.Remove(detection);
+    void FixedUpdate() {
+        while(matchDetectionRequests.Count > 0) {
+            Block request = matchDetectionRequests[0];
+            matchDetectionRequests.Remove(request);
 
-            if(detection.Block.State == BlockState.Idle) {
-                DetectMatch(detection.Block);
+            if(request.State == BlockState.Idle) {
+                DetectMatch(request);
             }
         }
     }
@@ -44,7 +36,6 @@ public class MatchDetector : MonoBehaviour {
             return;
         }
 
-        bool incrementChain = false;
         int left = block.Column;
         while(left > 0 && BlockManager.Blocks[left - 1, block.Row].State == BlockState.Idle && BlockManager.Blocks[left - 1, block.Row].Type == block.Type) {
             left--;
@@ -82,6 +73,7 @@ public class MatchDetector : MonoBehaviour {
         }
 
         if(!horizontalMatch && !verticalMatch) {
+            block.Chainer.ChainEligible = false;
             return;
         }
 
@@ -90,11 +82,13 @@ public class MatchDetector : MonoBehaviour {
         }
 
         int delayCounter = matchedBlockCount;
+        bool incrementChain = false;
 
         if(horizontalMatch) {
             for(int matchColumn = left; matchColumn < right; matchColumn++) {
                 BlockManager.Blocks[matchColumn, block.Row].Matcher.Match(matchedBlockCount, delayCounter--);
                 if(BlockManager.Blocks[matchColumn, block.Row].Chainer.ChainEligible) {
+                    ChainDetector.AddChainContributingBlock(BlockManager.Blocks[matchColumn, block.Row]);
                     incrementChain = true;
                 }
             }
@@ -104,12 +98,17 @@ public class MatchDetector : MonoBehaviour {
             for(int matchRow = top - 1; matchRow >= bottom; matchRow--) {
                 BlockManager.Blocks[block.Column, matchRow].Matcher.Match(matchedBlockCount, delayCounter--);
                 if(BlockManager.Blocks[block.Column, matchRow].Chainer.ChainEligible) {
+                    ChainDetector.AddChainContributingBlock(BlockManager.Blocks[block.Column, matchRow]);
                     incrementChain = true;
                 }
             }
         }
 
+        block.Chainer.ChainEligible = false;
+
         bool playSound = false;
+
+        AudioSource.pitch = 1f;
 
         if(matchedBlockCount > 3) {
             Score.ScoreCombo(matchedBlockCount);
@@ -122,6 +121,7 @@ public class MatchDetector : MonoBehaviour {
             int row = matchedBlockCount > 3 ? block.Row + 1 : block.Row;
             if(row <= PanelManager.Rows - 1) {
                 PanelManager.Panels[block.Column, row].Play(PanelType.Chain, ChainDetector.ChainLength);
+                AudioSource.pitch = Mathf.Min(0.75f + ChainDetector.ChainLength * 0.25f, 2f);
             }
             playSound = true;
         }

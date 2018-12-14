@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class PlayerManager : Singleton<PlayerManager> {
+[CreateAssetMenu]
+public class PlayerManager : ScriptableObject {
     public string Name;
 
     public void SetName(string name) {

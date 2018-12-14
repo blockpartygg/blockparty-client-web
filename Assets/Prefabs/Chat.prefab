@@ -646,6 +646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d7a66c4841761439db5aa55c25e9a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ChatManager: {fileID: 11400000, guid: 49e79d8fae363d447aa2a2aef2e1c134, type: 2}
   Panel: {fileID: 1765632301992238}
 --- !u!114 &114201237940704648
 MonoBehaviour:
@@ -794,6 +795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eae13ac7772098144a737384c707cd2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ChatManager: {fileID: 11400000, guid: 49e79d8fae363d447aa2a2aef2e1c134, type: 2}
   ChatMessagePrefab: {fileID: 1007531016708344, guid: 2ee4c2c80c194444183bdad4d988b521,
     type: 2}
   MessageStringFormat: <b><color=#17A589>{0}</color></b> {1}
@@ -944,7 +946,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224503125645138294}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1150,6 +1152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b173d8c44d24b3f49bedc0755ee46312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ChatManager: {fileID: 11400000, guid: 49e79d8fae363d447aa2a2aef2e1c134, type: 2}
+  PlayerManager: {fileID: 11400000, guid: d1e896826406f6f45ab94a8a27843952, type: 2}
 --- !u!114 &114811288239984918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1335,7 +1339,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.000055433193}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!224 &224079298732142938

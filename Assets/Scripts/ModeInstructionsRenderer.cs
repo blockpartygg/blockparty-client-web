@@ -2,7 +2,8 @@ using UnityEngine;
 using TMPro;
 
 public class ModeInstructionsRenderer : MonoBehaviour {
-	TMP_Text modeInstructionsText;
+	public Game Game;
+    TMP_Text modeInstructionsText;
     public string TimeAttackInstructions = "Score as many points as possible before time runs out.";
     public string SurvivalInstructions = "Prevent blocks from reaching the top of the screen for as long as possible.";
 
@@ -13,11 +14,11 @@ public class ModeInstructionsRenderer : MonoBehaviour {
 	void Start() {
 		string modeInstructions = "";
 
-        switch(Clock.Instance.Mode) {
-            case GameManager.GameMode.TimeAttack:
+        switch(Game.Mode) {
+            case GameMode.TimeAttack:
                 modeInstructions = TimeAttackInstructions;
                 break;
-            case GameManager.GameMode.Survival:
+            case GameMode.Survival:
                 modeInstructions = SurvivalInstructions;
                 break;
         }

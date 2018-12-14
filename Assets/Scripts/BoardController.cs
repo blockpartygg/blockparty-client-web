@@ -2,6 +2,7 @@
 using System;
 
 public class BoardController : MonoBehaviour {
+	public Game Game;
 	public BlockManager BlockManager;
 	public BoardRaiser BoardRaiser;
 	public Block SelectedBlock;
@@ -14,7 +15,7 @@ public class BoardController : MonoBehaviour {
 	const float doubleTapDuration = 0.5f;
 
 	void Update() {
-		if(Clock.Instance.State == GameManager.GameState.InMinigame) {
+		if(Game.State == GameState.InMinigame) {
 			if(Input.GetMouseButtonDown(0)) {
 				RaycastHit2D hit = Physics2D.Raycast(Camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 				if(hit.collider != null && hit.collider.name.Contains("Block")) {
@@ -28,7 +29,7 @@ public class BoardController : MonoBehaviour {
 					}
 				}
 
-				if(Clock.Instance.Mode == GameManager.GameMode.Survival) {
+				if(Game.Mode == GameMode.Survival) {
 					if(Time.time - previousTapTime <= doubleTapDuration) {
 						BoardRaiser.ForceRaise();
 					}
@@ -93,6 +94,7 @@ public class BoardController : MonoBehaviour {
 					rightBlock.Slider.Slide(SlideDirection.Left);
 
 					AudioSource.clip = SlideClip;
+					AudioSource.pitch = 1f;
 					AudioSource.Play();
 				}
 			}

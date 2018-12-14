@@ -9,19 +9,26 @@ public class BlockSelectedRenderer : MonoBehaviour {
     BoardController controller;
 
     void Awake() {
-        controller = GameObject.Find("Minigame").GetComponent<BoardController>();
+        GameObject board = GameObject.Find("Board");
+        if(board != null) {
+            controller = board.GetComponent<BoardController>();
+        }
     }
 
     void Start() {
-        controller.SelectedBlockChanged += UpdateSelectedSprite;
+        if(controller != null) {
+            controller.SelectedBlockChanged += UpdateSelectedSprite;
+        }
     }
 
     void UpdateSelectedSprite(object sender, EventArgs args) {
-        if(Block == controller.SelectedBlock) {
-            SelectedSprite.color = SelectedColor;
-        }
-        else {
-            SelectedSprite.color = DeselectedColor;
+        if(controller != null) {
+            if(Block == controller.SelectedBlock) {
+               SelectedSprite.color = SelectedColor;
+            }
+            else {
+                SelectedSprite.color = DeselectedColor;
+            }
         }
     }
 }

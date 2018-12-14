@@ -1,14 +1,14 @@
 using UnityEngine;
 
 public enum SlideDirection {
+    None,
     Left,
     Right,
-    None
 }
 
 public class BlockSlider : MonoBehaviour {   
     public Block Block;
-    public BlockData BlockData;
+    public FloatReference SlideDuration;
     public SlideDirection Direction;
     public BlockState TargetState;
     public int TargetType;
@@ -16,7 +16,13 @@ public class BlockSlider : MonoBehaviour {
     MatchDetector matchDetector;
 
     void Awake() {
-        matchDetector = GameObject.Find("Minigame").GetComponent<MatchDetector>();
+        GameObject board = GameObject.Find("Board");
+        if(board != null) {
+            matchDetector = board.GetComponent<MatchDetector>();
+        }
+        else {
+            Debug.Log("Couldn't find Board");
+        }
     }
 
     public void Slide(SlideDirection direction) {
@@ -25,17 +31,20 @@ public class BlockSlider : MonoBehaviour {
         Direction = direction;
     }
 
-    void Update() {
+    void FixedUpdate() {
         if(Block.State == BlockState.Sliding) {
             Elapsed += Time.deltaTime;
 
-            if(Elapsed >= BlockData.SlideDuration) {
+            if(Elapsed >= SlideDuration.Value) {
                 Block.State = TargetState;
                 Block.Type = TargetType;
+                Elapsed = 0;
                 Direction = SlideDirection.None;
 
                 if(Block.State == BlockState.Idle) {
-                    matchDetector.RequestMatchDetection(Block);
+                    if(matchDetector != null) {
+                        matchDetector.RequestMatchDetection(Block);
+                    }
                 }
             }
         }

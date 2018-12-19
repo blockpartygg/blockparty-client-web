@@ -2764,8 +2764,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2130821381}
-  - component: {fileID: 2130821370}
   - component: {fileID: 2130821369}
+  - component: {fileID: 2130821367}
   m_Layer: 0
   m_Name: Results Submitter
   m_TagString: Untagged
@@ -2773,6 +2773,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2130821367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130821366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e576b0ab2d8d2a84aac029b20593d224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Game: {fileID: 11400000, guid: e2da844048e01634facfac708aa0549c, type: 2}
+  PlayerManager: {fileID: 11400000, guid: d1e896826406f6f45ab94a8a27843952, type: 2}
+  APIConfiguration: {fileID: 11400000, guid: 50386f9a9364d084a973a2e4ec7bd561, type: 2}
+  Score: {fileID: 11400000, guid: c1c54179ca835e44d983c0a16da5228a, type: 2}
 --- !u!114 &2130821369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2789,7 +2805,7 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2130821370}
+      - m_Target: {fileID: 2130821367}
         m_MethodName: SubmitResultsAsync
         m_Mode: 1
         m_Arguments:
@@ -2802,23 +2818,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &2130821370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114720844841169484, guid: 1201a5d18ca387348b18499298b2037b,
-    type: 2}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2130821366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e576b0ab2d8d2a84aac029b20593d224, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Game: {fileID: 11400000, guid: e2da844048e01634facfac708aa0549c, type: 2}
-  PlayerManager: {fileID: 11400000, guid: d1e896826406f6f45ab94a8a27843952, type: 2}
-  APIConfiguration: {fileID: 11400000, guid: 50386f9a9364d084a973a2e4ec7bd561, type: 2}
-  Score: {fileID: 11400000, guid: c1c54179ca835e44d983c0a16da5228a, type: 2}
 --- !u!4 &2130821381
 Transform:
   m_ObjectHideFlags: 0

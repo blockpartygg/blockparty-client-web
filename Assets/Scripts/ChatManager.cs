@@ -17,7 +17,7 @@ public class ChatManager : ScriptableObject {
 
     void OnEnable() {
         Messages = new List<ChatMessage>();
-        if(SocketManager.IsConnected && SocketManager.Socket != null) {
+        if(SocketManager.Socket != null) {
             SocketManager.Socket.On("chat", OnChatReceived);
         }
     }

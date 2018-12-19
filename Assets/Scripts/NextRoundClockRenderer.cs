@@ -18,14 +18,14 @@ public class NextRoundClockRenderer : MonoBehaviour {
 
 		if(Game.Round != GameConfiguration.RoundCount) {
 			switch(Game.State) {
-				case GameState.PreRound:
+				case GameState.RoundSetup:
 					timeRemaining = TimeSpan.FromSeconds(Game.SecondsRemaining);
 					break;
-				case GameState.Scoreboard:
-					timeRemaining = TimeSpan.FromSeconds(Game.SecondsRemaining + (GameConfiguration.LeaderboardDuration / 1000) + (GameConfiguration.PreRoundDuration / 1000));
+				case GameState.RoundResults:
+					timeRemaining = TimeSpan.FromSeconds(Game.SecondsRemaining + (GameConfiguration.ScoreboardDuration / 1000) + (GameConfiguration.RoundSetupDuration / 1000));
 					break;
-				case GameState.Leaderboard:
-					timeRemaining = TimeSpan.FromSeconds(Game.SecondsRemaining + (GameConfiguration.PreRoundDuration / 1000));
+				case GameState.Scoreboard:
+					timeRemaining = TimeSpan.FromSeconds(Game.SecondsRemaining + (GameConfiguration.RoundSetupDuration / 1000));
 					break;
 			}
 
@@ -33,10 +33,10 @@ public class NextRoundClockRenderer : MonoBehaviour {
 		}
 		else {
 			switch(Game.State) {
-				case GameState.PreRound:
+				case GameState.RoundSetup:
 					timeRemaining = TimeSpan.FromSeconds(Game.SecondsRemaining);
 					break;
-				case GameState.Scoreboard:
+				case GameState.RoundResults:
 					timeRemaining = TimeSpan.FromSeconds(Game.SecondsRemaining + (GameConfiguration.PostgameDuration / 1000));
 					break;
 				case GameState.Postgame:

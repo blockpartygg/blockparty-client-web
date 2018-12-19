@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BoardCursorController : MonoBehaviour {
     public int Column = 2, Row = 5;
+    public Game Game;
     public BlockManager BlockManager;
     public BoardRaiser Raiser;
     public AudioSource AudioSource;
@@ -33,28 +34,30 @@ public class BoardCursorController : MonoBehaviour {
             Row += deltaRow;
         }
 
-        if(Input.GetKeyDown(KeyCode.Space)) {
-            if((BlockManager.Blocks[Column, Row].State == BlockState.Idle ||
-                BlockManager.Blocks[Column, Row].State == BlockState.Empty) &&
-                (BlockManager.Blocks[Column + 1, Row].State == BlockState.Idle ||
-                BlockManager.Blocks[Column + 1, Row].State == BlockState.Empty) &&
-                (Row + 1 == BlockManager.Rows || Row + 1 < BlockManager.Rows && 
-                BlockManager.Blocks[Column, Row + 1].State != BlockState.Falling && 
-                BlockManager.Blocks[Column + 1, Row + 1].State != BlockState.Falling &&
-                BlockManager.Blocks[Column, Row + 1].State != BlockState.WaitingToFall &&
-                BlockManager.Blocks[Column + 1, Row + 1].State != BlockState.WaitingToFall)) {
-                    SetupSlide(BlockManager.Blocks[Column, Row], SlideDirection.Right);
-                    SetupSlide(BlockManager.Blocks[Column + 1, Row], SlideDirection.Left);
-                    BlockManager.Blocks[Column, Row].Slider.Slide(SlideDirection.Right);
-                    BlockManager.Blocks[Column + 1, Row].Slider.Slide(SlideDirection.Left);
-                    AudioSource.clip = SlideClip;
-                    AudioSource.pitch = 1f;
-                    AudioSource.Play();
-                }
-        }
+        if(Game.State == GameState.InMinigame) {
+            if(Input.GetKeyDown(KeyCode.Space)) {
+                if((BlockManager.Blocks[Column, Row].State == BlockState.Idle ||
+                    BlockManager.Blocks[Column, Row].State == BlockState.Empty) &&
+                    (BlockManager.Blocks[Column + 1, Row].State == BlockState.Idle ||
+                    BlockManager.Blocks[Column + 1, Row].State == BlockState.Empty) &&
+                    (Row + 1 == BlockManager.Rows || Row + 1 < BlockManager.Rows && 
+                    BlockManager.Blocks[Column, Row + 1].State != BlockState.Falling && 
+                    BlockManager.Blocks[Column + 1, Row + 1].State != BlockState.Falling &&
+                    BlockManager.Blocks[Column, Row + 1].State != BlockState.WaitingToFall &&
+                    BlockManager.Blocks[Column + 1, Row + 1].State != BlockState.WaitingToFall)) {
+                        SetupSlide(BlockManager.Blocks[Column, Row], SlideDirection.Right);
+                        SetupSlide(BlockManager.Blocks[Column + 1, Row], SlideDirection.Left);
+                        BlockManager.Blocks[Column, Row].Slider.Slide(SlideDirection.Right);
+                        BlockManager.Blocks[Column + 1, Row].Slider.Slide(SlideDirection.Left);
+                        AudioSource.clip = SlideClip;
+                        AudioSource.pitch = 1f;
+                        AudioSource.Play();
+                    }
+            }
 
-        if(Input.GetKeyDown(KeyCode.Return)) {
-            Raiser.ForceRaise();
+            if(Input.GetKeyDown(KeyCode.Return)) {
+                Raiser.ForceRaise();
+            }
         }
     }
 

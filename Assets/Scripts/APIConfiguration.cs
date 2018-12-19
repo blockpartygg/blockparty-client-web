@@ -16,9 +16,8 @@ public class APIConfiguration : ScriptableObject {
 
     public string ConfigRoute = "config";
     public string GameRoute = "game";
-    public string ScoreRoute = "score";
+    public string ResultsRoute = "results";
     public string ScoreboardRoute = "scoreboard";
-    public string LeaderboardRoute = "leaderboard";
-    public string PersistentLeaderboardsRoute = "persistentleaderboards";
+    public string LeaderboardsRoute = "leaderboards";
     public string SocketIORoute = "socket.io/";
 }

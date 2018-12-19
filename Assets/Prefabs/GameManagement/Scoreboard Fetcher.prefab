@@ -1,25 +1,15 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1466226389307992}
-  m_IsPrefabAsset: 1
---- !u!1 &1466226389307992
+--- !u!1 &1698606500286502
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4889173688671626}
-  - component: {fileID: 114491960981200750}
+  - component: {fileID: 4117122913277800}
+  - component: {fileID: 114472561428370928}
   m_Layer: 0
   m_Name: Scoreboard Fetcher
   m_TagString: Untagged
@@ -27,12 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4889173688671626
+--- !u!4 &4117122913277800
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1466226389307992}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698606500286502}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,12 +31,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114491960981200750
+--- !u!114 &114472561428370928
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1466226389307992}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698606500286502}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 964d1176a56d00347a3fa3556332efdc, type: 3}
@@ -53,5 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   APIConfiguration: {fileID: 11400000, guid: 50386f9a9364d084a973a2e4ec7bd561, type: 2}
   Scoreboard: {fileID: 11400000, guid: 86258128d71b8d4469a7235455e3bbc8, type: 2}
-  OnScoreboardUpdated: {fileID: 11400000, guid: fddb76231fea0744f8a14ec7ed1d5edf,
+  OnScoreboardUpdated: {fileID: 11400000, guid: 2288573a4a2793c4b958f01ce3232f16,
     type: 2}

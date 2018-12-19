@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 [CreateAssetMenu]
 public class Scoreboard : ScriptableObject {
-    public List<SerializableScore> Scores;
+    public List<ScoreboardItem> Items;
 
     void Awake() {
-        Scores = new List<SerializableScore>();
+        Items = new List<ScoreboardItem>();
     }
 }

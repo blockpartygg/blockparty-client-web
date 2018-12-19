@@ -29,8 +29,7 @@ public class ChatMessagesRenderer : MonoBehaviour {
 
     void AddMessage(string playerName, string message) {
         GameObject chatMessageObject = Instantiate(ChatMessagePrefab, Vector3.zero, Quaternion.identity);
-        chatMessageObject.transform.Find("Player Image").Find("Player Name Initials").GetComponent<TMP_Text>().text = playerName.Substring(0, 1);
-        chatMessageObject.transform.Find("Message").GetComponent<TMP_Text>().text = string.Format(MessageStringFormat, playerName, message);
+        chatMessageObject.GetComponent<TMP_Text>().text = string.Format(MessageStringFormat, playerName, message);
         content = transform.Find("Viewport").Find("Content").gameObject;
         chatMessageObject.transform.SetParent(content.transform, false);
     }

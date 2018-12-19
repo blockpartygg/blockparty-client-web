@@ -8,12 +8,12 @@ public class SceneManager : MonoBehaviour {
     public bool IsSyncingToClockState;
     public string TitleSceneName = "Title";
     public string PregameSceneName = "Pregame";
-    public string PreRoundSceneName = "PreRound";
+    public string RoundSetupSceneName = "RoundSetup";
     public string MinigameSceneName = "Minigame";
+    public string RoundResultsSceneName = "RoundResults";
     public string ScoreboardSceneName = "Scoreboard";
-    public string LeaderboardSceneName = "Leaderboard";
     public string PostgameSceneName = "Postgame";
-    public string PersistentLeaderboardsSceneName = "PersistentLeaderboards";
+    public string LeaderboardsSceneName = "Leaderboards";
     bool isLoadingScene;
 
     public void HandleTimeExpired() {
@@ -28,19 +28,19 @@ public class SceneManager : MonoBehaviour {
             case GameState.Pregame:
                 sceneToLoad = PregameSceneName;
                 break;
-            case GameState.PreRound:
-                sceneToLoad = PreRoundSceneName;
+            case GameState.RoundSetup:
+                sceneToLoad = RoundSetupSceneName;
                 break;
             case GameState.PreMinigame:
             case GameState.InMinigame:
             case GameState.PostMinigame:
                 sceneToLoad = MinigameSceneName;
                 break;
+            case GameState.RoundResults:
+                sceneToLoad = RoundResultsSceneName;
+                break;
             case GameState.Scoreboard:
                 sceneToLoad = ScoreboardSceneName;
-                break;
-            case GameState.Leaderboard:
-                sceneToLoad = LeaderboardSceneName;
                 break;
             case GameState.Postgame:
                 sceneToLoad = PostgameSceneName;

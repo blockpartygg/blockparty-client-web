@@ -8,7 +8,7 @@ public class MinigameSprintManager : MonoBehaviour {
 	public BoardController BoardController;
 	public BlockManager BlockManager;
 	public TMP_Text EliminatedText;
-	public ScoreSubmitter ScoreSubmitter;
+	public ResultsSubmitter ResultsSubmitter;
 	public AnnouncementPlayer AnnouncementPlayer;
 
 	void Awake() {
@@ -26,8 +26,8 @@ public class MinigameSprintManager : MonoBehaviour {
 		
 		if(Game.State == GameState.PostMinigame) {
 			EndGame();
-			if(ScoreSubmitter != null) {
-				ScoreSubmitter.SubmitScoreAsync();
+			if(ResultsSubmitter != null) {
+				ResultsSubmitter.SubmitResultsAsync();
 			}
 		}
 	}

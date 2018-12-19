@@ -27,7 +27,7 @@ public class AnnouncementPlayer : MonoBehaviour {
 	}
 
 	public void HandleTimeExpired() {
-		if(Game.State != GameState.Scoreboard) {
+		if(Game.State != GameState.RoundResults) {
 			SetupAnnouncement();
 		}
 	}

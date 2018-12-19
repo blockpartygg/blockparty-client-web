@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1679ac254616a9148837ea1590dc68b3, type: 3}
   m_Name: Game
   m_EditorClassIdentifier: 
-  State: 0
-  SecondsRemaining: 180
+  State: 3
+  SecondsRemaining: 94
   Round: 1
-  Mode: 1
+  Mode: 2

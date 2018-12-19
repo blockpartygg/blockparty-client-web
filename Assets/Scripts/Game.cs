@@ -3,12 +3,12 @@ using System;
 
 public enum GameState {
     Pregame,
-    PreRound,
+    RoundSetup,
     PreMinigame,
     InMinigame,
     PostMinigame,
+    RoundResults,
     Scoreboard,
-    Leaderboard,
     Postgame
 }
 

@@ -10,7 +10,7 @@ using System.Collections;
             public int duration;
         }
 
-        [Serializable] public class SerializablePreRound {
+        [Serializable] public class SerializableRoundSetup {
             public string id;
             public int duration;
         }
@@ -30,12 +30,12 @@ using System.Collections;
             public int duration;
         }
 
-        [Serializable] public class SerializableScoreboard {
+        [Serializable] public class SerializableRoundResults {
             public string id;
             public int duration;
         }
 
-        [Serializable] public class SerializableLeaderboard {
+        [Serializable] public class SerializableScoreboard {
             public string id;
             public int duration;
         }
@@ -46,12 +46,12 @@ using System.Collections;
         }
 
         public SerializablePregame pregame;
-        public SerializablePreRound preRound;
+        public SerializableRoundSetup roundSetup;
         public SerializablePreMinigame preMinigame;
         public SerializableInMinigame inMinigame;
         public SerializablePostMinigame postMinigame;
+        public SerializableRoundResults roundResults;
         public SerializableScoreboard scoreboard;
-        public SerializableLeaderboard leaderboard;
         public SerializablePostgame postgame;
     }
 
@@ -84,12 +84,12 @@ public class GameConfigurationFetcher : MonoBehaviour {
             string text = request.downloadHandler.text;
             SerializableGameConfiguration config = JsonUtility.FromJson<SerializableGameConfiguration>(text);
             GameConfiguration.PregameDuration = config.states.pregame.duration;
-            GameConfiguration.PreRoundDuration = config.states.preRound.duration;
+            GameConfiguration.RoundSetupDuration = config.states.roundResults.duration;
             GameConfiguration.PreMinigameDuration = config.states.preMinigame.duration;
             GameConfiguration.InMinigameDuration = config.states.inMinigame.duration;
             GameConfiguration.PostMinigameDuration = config.states.postMinigame.duration;
+            GameConfiguration.RoundResultsDuration = config.states.roundResults.duration;
             GameConfiguration.ScoreboardDuration = config.states.scoreboard.duration;
-            GameConfiguration.LeaderboardDuration = config.states.leaderboard.duration;
             GameConfiguration.PostgameDuration = config.states.postgame.duration;
             GameConfiguration.RoundCount = config.roundCount;
         }

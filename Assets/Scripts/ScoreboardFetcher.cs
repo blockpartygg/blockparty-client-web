@@ -4,13 +4,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-[Serializable] public class SerializableScore {
+[Serializable] public class ScoreboardItem {
     public string id;
     public int score;
 }
 
 [Serializable] public class SerializableScoreboard {
-    public List<SerializableScore> items;
+    public List<ScoreboardItem> items;
 }
 
 public class ScoreboardFetcher : MonoBehaviour {
@@ -36,7 +36,7 @@ public class ScoreboardFetcher : MonoBehaviour {
         else {
             string text = request.downloadHandler.text;
             SerializableScoreboard scoreboard = JsonUtility.FromJson<SerializableScoreboard>(text);
-            Scoreboard.Scores = scoreboard.items;
+            Scoreboard.Items = scoreboard.items;
 
             OnScoreboardUpdated.Raise();
         }

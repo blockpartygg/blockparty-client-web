@@ -4,19 +4,20 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b1020d5642e8df74bbdcd62b0a933586, type: 3}
   m_Name: GameConfiguration
   m_EditorClassIdentifier: 
-  PregameDuration: 0
-  PreRoundDuration: 0
-  PreMinigameDuration: 0
-  InMinigameDuration: 0
-  PostMinigameDuration: 0
-  ScoreboardDuration: 0
-  LeaderboardDuration: 0
-  PostgameDuration: 0
-  RoundCount: 0
+  PregameDuration: 180000
+  RoundSetupDuration: 10000
+  PreMinigameDuration: 3000
+  InMinigameDuration: 120000
+  PostMinigameDuration: 3000
+  RoundResultsDuration: 10000
+  ScoreboardDuration: 10000
+  PostgameDuration: 10000
+  RoundCount: 5

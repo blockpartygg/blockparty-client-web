@@ -19,9 +19,9 @@ public class GameUpdater : MonoBehaviour {
         if(Game.SecondsRemaining <= 0) {
             switch(Game.State) {
                 case GameState.Pregame:
-                    SetupPreRound();
+                    SetupRoundSetup();
                     break;
-                case GameState.PreRound:
+                case GameState.RoundSetup:
                     Game.State = GameState.PreMinigame;
                     Game.EndTime = DateTime.Now + TimeSpan.FromMilliseconds(GameConfiguration.PreMinigameDuration);
                     Score.Reset();
@@ -35,20 +35,20 @@ public class GameUpdater : MonoBehaviour {
                     Game.EndTime = DateTime.Now + TimeSpan.FromMilliseconds(GameConfiguration.PostMinigameDuration);
                     break;
                 case GameState.PostMinigame:
-                    Game.State = GameState.Scoreboard;
-                    Game.EndTime = DateTime.Now + TimeSpan.FromMilliseconds(GameConfiguration.ScoreboardDuration);
+                    Game.State = GameState.RoundResults;
+                    Game.EndTime = DateTime.Now + TimeSpan.FromMilliseconds(GameConfiguration.RoundResultsDuration);
                     break;
-                case GameState.Scoreboard:
+                case GameState.RoundResults:
                     if(Game.Round < GameConfiguration.RoundCount) {
-                        Game.State = GameState.Leaderboard;
-                        Game.EndTime = DateTime.Now + TimeSpan.FromMilliseconds(GameConfiguration.LeaderboardDuration);
+                        Game.State = GameState.Scoreboard;
+                        Game.EndTime = DateTime.Now + TimeSpan.FromMilliseconds(GameConfiguration.ScoreboardDuration);
                     } else {
                         Game.State = GameState.Postgame;
                         Game.EndTime = DateTime.Now + TimeSpan.FromMilliseconds(GameConfiguration.PostgameDuration);
                     }
                     break;
-                case GameState.Leaderboard:
-                    SetupPreRound();
+                case GameState.Scoreboard:
+                    SetupRoundSetup();
                     break;
                 case GameState.Postgame:
                     Game.State = GameState.Pregame;
@@ -62,9 +62,9 @@ public class GameUpdater : MonoBehaviour {
         }
     }
 
-    void SetupPreRound() {
-        Game.State = GameState.PreRound;
-        Game.EndTime = DateTime.Now + TimeSpan.FromMilliseconds(GameConfiguration.PreRoundDuration);
+    void SetupRoundSetup() {
+        Game.State = GameState.RoundSetup;
+        Game.EndTime = DateTime.Now + TimeSpan.FromMilliseconds(GameConfiguration.RoundSetupDuration);
         Game.Round++;
         Game.Mode = Game.Mode == GameMode.None || Game.Mode == GameMode.Survival ? GameMode.TimeAttack : GameMode.Survival;
     }

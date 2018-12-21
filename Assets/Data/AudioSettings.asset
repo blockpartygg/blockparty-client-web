@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da6926b3c640f84cbe60036b0a06e16, type: 3}
   m_Name: AudioSettings
   m_EditorClassIdentifier: 
-  BackgroundMusic: {fileID: 0}
+  BackgroundMusic: {fileID: 8300000, guid: ba802c59696ec8f4ea4d7fec7b8bef46, type: 3}
   ApplauseSound: {fileID: 0}
